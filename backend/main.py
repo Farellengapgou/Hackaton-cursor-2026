@@ -1,16 +1,15 @@
 from __future__ import annotations
 
-import csv
 import io
-import uuid
 from typing import Any
 
+import pandas as pd
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-from ai_explainer import explain_anomaly
-from detector import anomalies_to_dict, detect_anomalies
+from detector import AnomalyDetector, build_summary
+from explainer import get_explainer
 
 app = FastAPI(title="FinAudit API")
 
@@ -22,96 +21,86 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# In-memory store
-transactions: list[dict[str, Any]] = []
-anomalies: list[dict[str, Any]] = []
+detector = AnomalyDetector()
+last_result: dict[str, Any] | None = None
+
+
+class ExplainRequest(BaseModel):
+    transaction_id: str
 
 
 class ChatRequest(BaseModel):
-    anomaly_id: str
-    question: str | None = None
+    transaction_id: str
+    message: str = Field(..., min_length=1)
+    history: list[dict[str, str]] | None = None
 
 
-def parse_csv(content: bytes) -> list[dict[str, Any]]:
-    text = content.decode("utf-8-sig")
-    reader = csv.DictReader(io.StringIO(text))
-    rows: list[dict[str, Any]] = []
-    for i, row in enumerate(reader):
-        amount_raw = row.get("amount") or row.get("montant") or row.get("Amount") or "0"
-        try:
-            amount = float(str(amount_raw).replace(",", ".").replace(" ", ""))
-        except ValueError:
-            amount = 0.0
-        rows.append(
-            {
-                "id": row.get("id") or str(uuid.uuid4())[:8],
-                "date": row.get("date") or row.get("Date") or "",
-                "label": row.get("label") or row.get("libelle") or row.get("Label") or "",
-                "amount": amount,
-                "category": row.get("category") or row.get("categorie") or "",
-            }
+def _index_by_id(transactions: list[dict[str, Any]]) -> dict[str, dict[str, Any]]:
+    return {str(t["id"]): t for t in transactions}
+
+
+def _get_transaction(transaction_id: str) -> dict[str, Any]:
+    if not last_result:
+        raise HTTPException(
+            status_code=400,
+            detail="Aucune analyse en mémoire. Envoyez d'abord POST /analyze avec un CSV.",
         )
-        if i > 5000:
-            break
-    return rows
+    tx_map = _index_by_id(last_result.get("transactions", []))
+    tx = tx_map.get(str(transaction_id))
+    if not tx:
+        raise HTTPException(status_code=404, detail="Transaction introuvable")
+    return tx
 
 
-@app.get("/api/health")
+@app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.post("/api/upload")
-async def upload(file: UploadFile = File(...)) -> dict[str, Any]:
-    global transactions, anomalies
+@app.post("/analyze")
+async def analyze(file: UploadFile = File(...)) -> dict[str, Any]:
+    """
+    Import CSV + détection — aucun appel API externe.
+    """
+    global last_result
     if not file.filename or not file.filename.lower().endswith(".csv"):
         raise HTTPException(status_code=400, detail="Fichier CSV requis")
+
     content = await file.read()
-    transactions = parse_csv(content)
-    detected = detect_anomalies(transactions)
-    anomalies = anomalies_to_dict(detected)
-    return {
-        "transactions_count": len(transactions),
-        "anomalies_count": len(anomalies),
-        "transactions": transactions,
-        "anomalies": anomalies,
-    }
+    try:
+        df = pd.read_csv(io.BytesIO(content), encoding="utf-8-sig")
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"CSV invalide: {exc}") from exc
+
+    if df.empty:
+        raise HTTPException(status_code=400, detail="CSV vide")
+
+    transactions = detector.analyze(df)
+    summary = build_summary(transactions)
+    last_result = {"summary": summary, "transactions": transactions}
+    return last_result
 
 
-@app.get("/api/transactions")
-def get_transactions() -> list[dict[str, Any]]:
-    return transactions
+@app.post("/explain")
+def explain(body: ExplainRequest) -> dict[str, Any]:
+    tx = _get_transaction(body.transaction_id)
+    explainer = get_explainer()
+    return explainer.explain(tx, tx.get("anomalies", []))
 
 
-@app.get("/api/anomalies")
-def get_anomalies() -> list[dict[str, Any]]:
-    return anomalies
+@app.post("/chat")
+def chat(body: ChatRequest) -> dict[str, Any]:
+    tx = _get_transaction(body.transaction_id)
+    explainer = get_explainer()
+    return explainer.chat(tx, tx.get("anomalies", []), body.message, body.history)
 
 
-@app.get("/api/stats")
-def get_stats() -> dict[str, Any]:
-    total = len(transactions)
-    total_amount = sum(float(t.get("amount", 0) or 0) for t in transactions)
-    by_severity: dict[str, int] = {}
-    for a in anomalies:
-        sev = a.get("severity", "unknown")
-        by_severity[sev] = by_severity.get(sev, 0) + 1
-    return {
-        "transactions_count": total,
-        "anomalies_count": len(anomalies),
-        "total_amount": round(total_amount, 2),
-        "anomalies_by_severity": by_severity,
-    }
+# Alias deprecated pour compatibilité temporaire
+@app.get("/api/health")
+def api_health() -> dict[str, str]:
+    return health()
 
 
-@app.post("/api/chat")
-def chat(body: ChatRequest) -> dict[str, str]:
-    anomaly = next((a for a in anomalies if a["id"] == body.anomaly_id), None)
-    if not anomaly:
-        raise HTTPException(status_code=404, detail="Anomalie introuvable")
-    tx = next(
-        (t for t in transactions if str(t.get("id")) == str(anomaly.get("transaction_id"))),
-        None,
-    )
-    reply = explain_anomaly(anomaly, tx, body.question)
-    return {"reply": reply}
+@app.post("/api/upload")
+async def api_upload_deprecated(file: UploadFile = File(...)) -> dict[str, Any]:
+    return await analyze(file)

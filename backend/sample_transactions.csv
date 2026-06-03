@@ -1,7 +1,9 @@
-id,date,label,amount,category
-1,2025-01-05,Salaire,2500.00,revenu
-2,2025-01-06,Supermarche,85.40,courses
-3,2025-01-07,Loyer,950.00,logement
-4,2025-01-08,Virement suspect,15000.00,autre
-5,2025-01-08,Virement suspect,15000.00,autre
-6,2025-01-09,Cafe,-4.50,loisirs
+id,date,heure,fournisseur,montant,categorie,validateur
+TXN-001,2025-01-05,09:15,CAMTEL,450000,Telecom,Marie N.
+TXN-002,2025-01-06,10:30,Supermarche Bon Prix,85400,Courses,Jean K.
+TXN-003,2025-01-07,11:00,Bail Loyer,950000,Logement,Marie N.
+TXN-004,2025-01-08,14:20,Virement suspect SA,15000000,Autre,Paul M.
+TXN-005,2025-01-08,16:20,Virement suspect SA,15000000,Autre,Paul M.
+TXN-006,2025-01-09,08:45,Cafe du Centre,-4500,Loisirs,Jean K.
+TXN-007,2025-01-10,03:12,GLOBAL INVEST LTD,4750000,Investissement,Paul M.
+TXN-008,2025-01-11,15:00,MTN Cameroun,125000,Telecom,Marie N.
