@@ -31,6 +31,7 @@ uvicorn main:app --reload --port 8000
 |---------|-------|-------------|
 | GET | `/health` | Santé API |
 | POST | `/analyze` | Upload CSV → analyse (**aucun appel externe**) |
+| POST | `/api/upload` | Alias de `/analyze` (compatibilité) |
 | POST | `/explain` | Explication FR (template par défaut) |
 | POST | `/chat` | Chat sur une transaction analysée |
 
@@ -68,6 +69,24 @@ Colonnes recommandées :
 `id, date, heure, fournisseur, montant, categorie, validateur`
 
 Alias acceptés : `amount`, `label`, `category`, etc.
+
+### Jeu de données démo (60 transactions, 5 anomalies cachées)
+
+```bash
+cd backend
+python3 generate_demo_data.py
+```
+
+Génère `demo_transactions.csv` (fournisseurs camerounais, FCFA, janvier 2025) et affiche une **cheat sheet** dans le terminal (démo uniquement).
+
+Tester l’analyse :
+
+```bash
+curl -X POST http://localhost:8000/analyze \
+  -F "file=@demo_transactions.csv"
+```
+
+Anomalies attendues (IDs) : doublon T048–T049, nuit T050, outlier T051, montant rond T052, cluster Benford T053–T060.
 
 ## Frontend
 
