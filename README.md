@@ -5,10 +5,12 @@ MVP hackathon **J.U.I.N 2026**, thème 11 : import CSV, détection multi-règles
 ## Structure
 
 ```text
-backend/          # FastAPI — POST /analyze (sans API externe)
+backend/          # FastAPI unifié (hackathon + modules api/, services/, detection/)
 frontend/         # React + Vite — port 5173
 demo/             # Futurs jeux de données démo
 ```
+
+Les branches `feature/backend-finaudit` et `backend` partagent le même backend unifié après merge (détecteur riche + routes modulaires `/api/*`).
 
 ## Prérequis
 

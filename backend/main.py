@@ -1,3 +1,9 @@
+"""Point d'entrée unifié FinAudit.
+
+Combine le backend hackathon (``/analyze``, détecteur riche, démo) et la
+structure modulaire ``origin/backend`` (``/api/transactions``, store, config).
+"""
+
 from __future__ import annotations
 
 import io
@@ -8,18 +14,11 @@ from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from api.routes_transactions import router as transactions_router
+from config import settings
 from detector import AnomalyDetector, build_summary
 from explainer import get_explainer
-
-app = FastAPI(title="FinAudit API")
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+from services.store import store
 
 detector = AnomalyDetector()
 last_result: dict[str, Any] | None = None
@@ -39,6 +38,24 @@ def _index_by_id(transactions: list[dict[str, Any]]) -> dict[str, dict[str, Any]
     return {str(t["id"]): t for t in transactions}
 
 
+def _flatten_anomalies(transactions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    flat: list[dict[str, Any]] = []
+    for tx in transactions:
+        for anomaly in tx.get("anomalies", []):
+            entry = dict(anomaly)
+            entry.setdefault("transaction_id", tx.get("id"))
+            flat.append(entry)
+    return flat
+
+
+def _persist_result(transactions: list[dict[str, Any]], summary: dict[str, Any]) -> dict[str, Any]:
+    global last_result
+    payload = {"summary": summary, "transactions": transactions}
+    last_result = payload
+    store.save(transactions, _flatten_anomalies(transactions))
+    return payload
+
+
 def _get_transaction(transaction_id: str) -> dict[str, Any]:
     if not last_result:
         raise HTTPException(
@@ -52,6 +69,22 @@ def _get_transaction(transaction_id: str) -> dict[str, Any]:
     return tx
 
 
+def create_app() -> FastAPI:
+    app = FastAPI(title=settings.APP_TITLE)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[settings.CORS_ORIGIN],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+    app.include_router(transactions_router)
+    return app
+
+
+app = create_app()
+
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -59,10 +92,7 @@ def health() -> dict[str, str]:
 
 @app.post("/analyze")
 async def analyze(file: UploadFile = File(...)) -> dict[str, Any]:
-    """
-    Import CSV + détection — aucun appel API externe.
-    """
-    global last_result
+    """Import CSV + détection — aucun appel API externe."""
     if not file.filename or not file.filename.lower().endswith(".csv"):
         raise HTTPException(status_code=400, detail="Fichier CSV requis")
 
@@ -77,8 +107,7 @@ async def analyze(file: UploadFile = File(...)) -> dict[str, Any]:
 
     transactions = detector.analyze(df)
     summary = build_summary(transactions)
-    last_result = {"summary": summary, "transactions": transactions}
-    return last_result
+    return _persist_result(transactions, summary)
 
 
 @app.post("/explain")
@@ -95,12 +124,12 @@ def chat(body: ChatRequest) -> dict[str, Any]:
     return explainer.chat(tx, tx.get("anomalies", []), body.message, body.history)
 
 
-# Alias deprecated pour compatibilité temporaire
 @app.get("/api/health")
 def api_health() -> dict[str, str]:
     return health()
 
 
 @app.post("/api/upload")
-async def api_upload_deprecated(file: UploadFile = File(...)) -> dict[str, Any]:
+async def api_upload(file: UploadFile = File(...)) -> dict[str, Any]:
+    """Alias de ``/analyze`` (compatibilité branche ``origin/backend``)."""
     return await analyze(file)
