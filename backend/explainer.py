@@ -5,13 +5,25 @@ from abc import ABC, abstractmethod
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 from typing import Any
 
-LLM_TIMEOUT_SECONDS = 3.0
+from prompts import (
+    CHAT_GENERATION_CONFIG,
+    GEMINI_MODEL,
+    GENERATION_CONFIG,
+    SYSTEM_PROMPT,
+    build_chat_prompt,
+    build_explain_prompt,
+)
+
+LLM_TIMEOUT_SECONDS = 5.0
 
 
 class BaseExplainer(ABC):
     @abstractmethod
     def explain(
-        self, transaction: dict[str, Any], anomalies: list[dict[str, Any]]
+        self,
+        transaction: dict[str, Any],
+        anomalies: list[dict[str, Any]],
+        context: dict[str, Any],
     ) -> dict[str, Any]:
         ...
 
@@ -21,44 +33,74 @@ class BaseExplainer(ABC):
         transaction: dict[str, Any],
         anomalies: list[dict[str, Any]],
         user_message: str,
+        context: dict[str, Any],
         history: list[dict[str, str]] | None = None,
     ) -> dict[str, Any]:
         ...
 
 
+def _causes(anomalies: list[dict[str, Any]]) -> list[str]:
+    return [str(a.get("rule_name", "")) for a in anomalies if a.get("rule_name")]
+
+
 class TemplateExplainer(BaseExplainer):
-    """Explications déterministes — toujours disponibles, zéro réseau."""
+    """Explications déterministes — zéro réseau."""
 
     def explain(
-        self, transaction: dict[str, Any], anomalies: list[dict[str, Any]]
+        self,
+        transaction: dict[str, Any],
+        anomalies: list[dict[str, Any]],
+        context: dict[str, Any],
     ) -> dict[str, Any]:
-        score = transaction.get("risk_score", 0)
-        severity = transaction.get("severity", "a_verifier")
-        risk_level = severity.upper() if isinstance(severity, str) else "A_VERIFIER"
+        score = int(transaction.get("risk_score", 0) or 0)
+        tx = context.get("transaction", {})
+        stats = context.get("stats", {})
+        ml = context.get("ml", {})
+        montant = float(tx.get("montant_fcfa", 0) or 0)
+        ratio = stats.get("ratio_vs_moyenne_categorie", 0)
+        extra = context.get("extra_fields") or {}
 
         if not anomalies:
-            text = (
-                f"Transaction {transaction.get('id')} : aucune anomalie détectée "
-                f"(score {score}/100)."
-            )
             return {
-                "text": text,
+                "text": (
+                    f"Transaction {tx.get('id')} : aucune anomalie (score {score}/100)."
+                ),
                 "risk_level": "FAIBLE",
-                "recommendation": "Aucune action urgente requise.",
+                "recommendation": "Aucune action urgente.",
                 "source": "template",
+                "causes": [],
             }
 
-        lines = [f"Niveau de risque : {risk_level} ({score}/100)", "", "Causes détectées :"]
-        for a in anomalies:
-            lines.append(f"• {a.get('rule_name', 'REGLE')} : {a.get('reason', '')}")
+        severity = transaction.get("severity", "a_verifier")
+        risk_level = str(severity).upper()
 
-        rec = self._recommendation(score, anomalies)
-        lines.extend(["", f"Recommandation : {rec}"])
+        parts = [
+            f"Niveau {risk_level} ({score}/100).",
+            (
+                f"Montant {montant:,.0f} FCFA"
+                + (f", soit {ratio:.1f}× la moyenne de la catégorie." if ratio > 1 else ".")
+            ),
+        ]
+        if tx.get("heure"):
+            parts.append(f"Heure : {tx.get('heure')}.")
+        if ml.get("isolation_forest_flagged"):
+            parts.append(
+                f"Isolation Forest : signal multivarié (score {ml.get('isolation_forest_score')})."
+            )
+        if extra:
+            extra_bits = ", ".join(f"{k}={v}" for k, v in list(extra.items())[:3])
+            parts.append(f"Données complémentaires : {extra_bits}.")
+
+        parts.append("Causes : " + "; ".join(_causes(anomalies)) + ".")
+        rec = self._recommendation(score)
+        parts.append(f"Recommandation : {rec}")
+
         return {
-            "text": "\n".join(lines),
+            "text": " ".join(parts),
             "risk_level": risk_level,
             "recommendation": rec,
             "source": "template",
+            "causes": _causes(anomalies),
         }
 
     def chat(
@@ -66,155 +108,136 @@ class TemplateExplainer(BaseExplainer):
         transaction: dict[str, Any],
         anomalies: list[dict[str, Any]],
         user_message: str,
+        context: dict[str, Any],
         history: list[dict[str, str]] | None = None,
     ) -> dict[str, Any]:
         msg = (user_message or "").strip().lower()
         score = int(transaction.get("risk_score", 0) or 0)
-        fournisseur = transaction.get("fournisseur", "N/A")
-        montant = transaction.get("montant", 0)
+        tx = context.get("transaction", {})
+        fournisseur = tx.get("fournisseur", "N/A")
+        montant = float(tx.get("montant_fcfa", 0) or 0)
+        extra = context.get("extra_fields") or {}
 
         if any(w in msg for w in ("bloquer", "suspendre", "stopper", "valider")):
             if score > 75:
                 reply = (
-                    f"Compte tenu du score {score}/100, je recommande de suspendre ce "
-                    f"paiement ({montant:,.0f} FCFA vers {fournisseur}) et de faire valider "
-                    "par la direction financière avant exécution."
+                    f"Score {score}/100 : suspendre le paiement de {montant:,.0f} FCFA "
+                    f"vers {fournisseur} et faire valider par la DAF."
                 )
             elif score > 40:
-                reply = (
-                    f"Score modéré ({score}/100) : vérifiez les pièces justificatives "
-                    "avant de débloquer le paiement."
-                )
+                reply = "Score modéré : vérifier facture et validation hiérarchique avant paiement."
             else:
-                reply = (
-                    "Risque faible : pas de blocage automatique nécessaire, "
-                    "contrôle ponctuel suffisant."
-                )
+                reply = "Risque faible : pas de blocage automatique requis."
         elif any(w in msg for w in ("grave", "critique", "urgent")):
             reply = (
-                f"Sévérité actuelle : {transaction.get('severity', 'a_verifier')}. "
-                f"{len(anomalies)} signal(s) actif(s). "
+                f"Sévérité {transaction.get('severity')} — {len(anomalies)} signal(s). "
                 + (anomalies[0].get("reason", "") if anomalies else "")
             )
-        elif any(w in msg for w in ("fournisseur", "beneficiaire", "danger")):
-            has_unique = any(a.get("rule_name") == "FOURNISSEUR_UNIQUE" for a in anomalies)
-            if has_unique:
+        elif any(w in msg for w in ("fournisseur", "beneficiaire", "danger", "compte")):
+            if any(a.get("rule_name") == "FOURNISSEUR_UNIQUE" for a in anomalies):
                 reply = (
-                    f"« {fournisseur} » n'apparaît qu'une fois : signal d'alerte, "
-                    "pas une preuve de fraude. Vérifiez l'existence légale du tiers."
+                    f"« {fournisseur} » est unique dans le fichier : alerte, pas preuve de fraude."
+                )
+            elif extra:
+                reply = (
+                    f"Fournisseur {fournisseur}. Champs extra : "
+                    + ", ".join(f"{k}={v}" for k, v in list(extra.items())[:4])
                 )
             else:
-                reply = (
-                    f"Le fournisseur « {fournisseur} » ne présente pas de signal "
-                    "d'inhabitualité fort dans cet import."
-                )
+                reply = f"Pas de signal fournisseur fort pour « {fournisseur} »."
         elif any(w in msg for w in ("pourquoi", "expliquer", "raison", "score")):
-            exp = self.explain(transaction, anomalies)
-            reply = exp["text"]
+            reply = self.explain(transaction, anomalies, context)["text"]
         else:
-            exp = self.explain(transaction, anomalies)
             reply = (
-                f"{exp['text']}\n\n"
-                "Vous pouvez demander : « Dois-je bloquer ? », « C'est grave ? », "
-                "« Ce fournisseur est-il dangereux ? »"
+                self.explain(transaction, anomalies, context)["text"]
+                + "\n\nQuestions possibles : bloquer ? gravité ? fournisseur ?"
             )
 
         return {"reply": reply, "source": "template"}
 
-    def _recommendation(self, score: int, anomalies: list[dict[str, Any]]) -> str:
+    def _recommendation(self, score: int) -> str:
         if score > 75:
             return "Investigation prioritaire — suspendre le paiement si possible."
         if score > 40:
-            return "Contrôle manuel des justificatifs sous 48 h."
-        if anomalies:
-            return "Vérification ponctuelle recommandée."
-        return "Aucune action urgente."
+            return "Contrôle des justificatifs sous 48 h."
+        return "Vérification ponctuelle recommandée."
 
 
 class LLMExplainer(BaseExplainer):
-    """Gemini optionnel — timeout 3s, fallback template sur toute erreur."""
+    """Gemini — timeout 5s, fallback template."""
 
     def __init__(self) -> None:
         self._template = TemplateExplainer()
         self._api_key = os.getenv("GEMINI_API_KEY", "").strip()
 
     def explain(
-        self, transaction: dict[str, Any], anomalies: list[dict[str, Any]]
+        self,
+        transaction: dict[str, Any],
+        anomalies: list[dict[str, Any]],
+        context: dict[str, Any],
     ) -> dict[str, Any]:
-        text = self._call_llm(
-            "Tu es un auditeur forensic pour une PME camerounaise (FCFA, GMT+1). "
-            "Réponds en français en 2-3 phrases : pourquoi cette transaction est suspecte, "
-            "niveau CRITIQUE/SUSPECT/FAIBLE, une action concrète.",
-            transaction,
-            anomalies,
-            None,
-        )
+        text = self._call_llm(build_explain_prompt(context), GENERATION_CONFIG)
         if text:
             return {
                 "text": text,
                 "risk_level": str(transaction.get("severity", "suspect")).upper(),
                 "recommendation": self._template._recommendation(
-                    int(transaction.get("risk_score", 0) or 0), anomalies
+                    int(transaction.get("risk_score", 0) or 0)
                 ),
                 "source": "llm",
+                "causes": _causes(anomalies),
             }
-        return self._template.explain(transaction, anomalies)
+        return self._template.explain(transaction, anomalies, context)
 
     def chat(
         self,
         transaction: dict[str, Any],
         anomalies: list[dict[str, Any]],
         user_message: str,
+        context: dict[str, Any],
         history: list[dict[str, str]] | None = None,
     ) -> dict[str, Any]:
-        text = self._call_llm(
-            "Tu es un copilote d'audit financier (Cameroun, FCFA). Réponds brièvement en français.",
-            transaction,
-            anomalies,
-            user_message,
-            history,
-        )
+        prompt = build_chat_prompt(context, user_message, history)
+        text = self._call_llm(prompt, CHAT_GENERATION_CONFIG)
         if text:
             return {"reply": text, "source": "llm"}
-        return self._template.chat(transaction, anomalies, user_message, history)
+        return self._template.chat(
+            transaction, anomalies, user_message, context, history
+        )
 
-    def _call_llm(
-        self,
-        system: str,
-        transaction: dict[str, Any],
-        anomalies: list[dict[str, Any]],
-        user_message: str | None,
-        history: list[dict[str, str]] | None = None,
-    ) -> str | None:
+    def _call_llm(self, user_prompt: str, gen_config: dict[str, Any]) -> str | None:
         if not self._api_key:
             return None
         try:
             import google.generativeai as genai
 
             genai.configure(api_key=self._api_key)
-            model = genai.GenerativeModel("gemini-1.5-flash")
-            prompt = (
-                f"{system}\n\nTransaction: {transaction}\n"
-                f"Anomalies: {anomalies}\n"
+            model = genai.GenerativeModel(
+                GEMINI_MODEL,
+                system_instruction=SYSTEM_PROMPT,
             )
-            if user_message:
-                prompt += f"Question: {user_message}\n"
-            if history:
-                prompt += f"Historique: {history}\n"
 
             def _generate() -> str:
-                response = model.generate_content(prompt)
+                response = model.generate_content(
+                    user_prompt,
+                    generation_config=gen_config,
+                )
                 return (response.text or "").strip()
 
             with ThreadPoolExecutor(max_workers=1) as pool:
-                future = pool.submit(_generate)
-                return future.result(timeout=LLM_TIMEOUT_SECONDS)
-        except (FuturesTimeoutError, Exception):
+                return pool.submit(_generate).result(timeout=LLM_TIMEOUT_SECONDS)
+        except FuturesTimeoutError:
+            return None
+        except Exception as exc:
+            import logging
+
+            logging.getLogger("finaudit.explainer").warning(
+                "Gemini call failed: %s", exc
+            )
             return None
 
 
 def get_explainer() -> BaseExplainer:
-    key = os.getenv("GEMINI_API_KEY", "").strip()
-    if key:
+    if os.getenv("GEMINI_API_KEY", "").strip():
         return LLMExplainer()
     return TemplateExplainer()

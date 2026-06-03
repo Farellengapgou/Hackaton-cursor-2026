@@ -13,7 +13,10 @@ router = APIRouter()
 
 @router.post("/api/upload")
 async def upload(file: UploadFile = File(...)) -> dict[str, Any]:
-    if not file.filename or not file.filename.lower().endswith(".csv"):
-        raise HTTPException(status_code=400, detail="Fichier CSV requis")
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="Nom de fichier requis")
+    lower = file.filename.lower()
+    if not lower.endswith((".csv", ".xlsx", ".xls")):
+        raise HTTPException(status_code=400, detail="Formats : .csv, .xlsx, .xls")
     content = await file.read()
-    return analyze_upload(content)
+    return analyze_upload(content, file.filename)

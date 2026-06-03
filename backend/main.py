@@ -7,11 +7,14 @@ le tout protégé par l'authentification par jeton Bearer (voir ``auth``).
 
 from __future__ import annotations
 
-import io
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 
-import pandas as pd
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).resolve().parent / ".env")
+
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
@@ -20,8 +23,10 @@ from api.routes_auth import router as auth_router
 from api.routes_transactions import router as transactions_router
 from auth.dependencies import get_current_user
 from config import settings
+from context_builder import build_audit_context
 from detector import AnomalyDetector, build_summary
 from explainer import get_explainer
+from schema_mapper import read_upload
 from services.store import store
 
 detector = AnomalyDetector()
@@ -55,10 +60,15 @@ def _flatten_anomalies(transactions: list[dict[str, Any]]) -> list[dict[str, Any
 def _persist_result(
     transactions: list[dict[str, Any]],
     summary: dict[str, Any],
+    schema_report: dict[str, Any],
     username: str | None = None,
 ) -> dict[str, Any]:
     global last_result
-    payload = {"summary": summary, "transactions": transactions}
+    payload = {
+        "summary": summary,
+        "transactions": transactions,
+        "schema_report": schema_report,
+    }
     last_result = payload
     flat = _flatten_anomalies(transactions)
     store.save(transactions, flat)
@@ -74,22 +84,28 @@ def _persist_result(
 
 
 async def _analyze_file(file: UploadFile, username: str | None) -> dict[str, Any]:
-    """Import CSV + détection — aucun appel API externe."""
-    if not file.filename or not file.filename.lower().endswith(".csv"):
-        raise HTTPException(status_code=400, detail="Fichier CSV requis")
+    """Import CSV/XLSX + détection — aucun appel API externe."""
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="Nom de fichier requis")
+    lower = file.filename.lower()
+    if not lower.endswith((".csv", ".xlsx", ".xls")):
+        raise HTTPException(
+            status_code=400,
+            detail="Formats acceptés : .csv, .xlsx, .xls",
+        )
 
     content = await file.read()
     try:
-        df = pd.read_csv(io.BytesIO(content), encoding="utf-8-sig")
+        df, schema_report = read_upload(content, file.filename)
     except Exception as exc:
-        raise HTTPException(status_code=400, detail=f"CSV invalide: {exc}") from exc
+        raise HTTPException(status_code=400, detail=f"Fichier invalide: {exc}") from exc
 
     if df.empty:
-        raise HTTPException(status_code=400, detail="CSV vide")
+        raise HTTPException(status_code=400, detail="Fichier vide")
 
-    transactions = detector.analyze(df)
-    summary = build_summary(transactions)
-    return _persist_result(transactions, summary, username)
+    transactions, dataset_alerts = detector.analyze(df)
+    summary = build_summary(transactions, dataset_alerts)
+    return _persist_result(transactions, summary, schema_report, username)
 
 
 def _get_transaction(transaction_id: str) -> dict[str, Any]:
@@ -123,8 +139,15 @@ app = create_app()
 
 
 @app.get("/health")
-def health() -> dict[str, str]:
-    return {"status": "ok"}
+def health() -> dict[str, Any]:
+    import os
+
+    gemini = bool(os.getenv("GEMINI_API_KEY", "").strip())
+    return {
+        "status": "ok",
+        "llm_configured": gemini,
+        "explainer_mode": "gemini" if gemini else "template",
+    }
 
 
 @app.post("/analyze")
@@ -141,8 +164,14 @@ def explain(
     current_user: dict[str, Any] = Depends(get_current_user),
 ) -> dict[str, Any]:
     tx = _get_transaction(body.transaction_id)
-    explainer = get_explainer()
-    return explainer.explain(tx, tx.get("anomalies", []))
+    summary = last_result.get("summary", {}) if last_result else {}
+    ctx = build_audit_context(
+        tx,
+        last_result.get("transactions", []) if last_result else [],
+        last_result.get("schema_report") if last_result else None,
+        summary.get("dataset_alerts"),
+    )
+    return get_explainer().explain(tx, tx.get("anomalies", []), ctx)
 
 
 @app.post("/chat")
@@ -151,8 +180,16 @@ def chat(
     current_user: dict[str, Any] = Depends(get_current_user),
 ) -> dict[str, Any]:
     tx = _get_transaction(body.transaction_id)
-    explainer = get_explainer()
-    return explainer.chat(tx, tx.get("anomalies", []), body.message, body.history)
+    summary = last_result.get("summary", {}) if last_result else {}
+    ctx = build_audit_context(
+        tx,
+        last_result.get("transactions", []) if last_result else [],
+        last_result.get("schema_report") if last_result else None,
+        summary.get("dataset_alerts"),
+    )
+    return get_explainer().chat(
+        tx, tx.get("anomalies", []), body.message, ctx, body.history
+    )
 
 
 @app.get("/api/health")

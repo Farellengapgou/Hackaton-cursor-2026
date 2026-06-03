@@ -1,0 +1,501 @@
+EntryNo,Date,Territory_key,Account_key,Details,Amount
+1.1,2018-01-01,1,230,Cost of Sales,-884
+1.2,2018-01-01,1,60,Cost of Sales,-884
+2.1,2018-01-01,1,230,Cost of Sales,-1120
+2.2,2018-01-01,1,60,Cost of Sales,-1120
+3.1,2018-01-01,1,280,Credit Expenses,-2394
+3.2,2018-01-01,1,120,Credit Expenses,2394
+4.1,2018-01-01,1,210,Credit Sales,2948
+4.2,2018-01-01,1,30,Credit Sales,2948
+5.1,2018-01-01,1,210,Cash Sales,3734
+5.2,2018-01-01,1,10,Cash Sales,3734
+6.1,2018-01-01,1,230,Cost of Sales,-4371
+6.2,2018-01-01,1,60,Cost of Sales,-4371
+7.1,2018-01-01,1,210,Credit Sales,14570
+7.2,2018-01-01,1,30,Credit Sales,14570
+8.1,2018-01-01,1,20,Bank to Cash transfer,15000
+8.2,2018-01-01,1,10,Bank to Cash transfer,-15000
+9.1,2018-01-01,1,60,Inventory Purchase,20000
+9.2,2018-01-01,1,110,Inventory Purchase,20000
+10.1,2018-01-01,1,100,Purchase of intangibles assets,30000
+10.2,2018-01-01,1,160,Purchase of intangibles assets,30000
+11.1,2018-01-01,1,90,Purchase of equipment,600000
+11.2,2018-01-01,1,10,Purchase of equipment,-600000
+12.1,2018-01-01,1,10,Share Issue,800000
+12.2,2018-01-01,1,180,Share Issue,800000
+13.1,2018-01-03,1,310,Cash expenses,-44
+13.2,2018-01-03,1,20,Cash expenses,-44
+14.1,2018-01-05,1,230,Cost of Sales,-395
+14.2,2018-01-05,1,60,Cost of Sales,-395
+15.1,2018-01-05,1,210,Credit Sales,1317
+15.2,2018-01-05,1,30,Credit Sales,1317
+16.1,2018-01-05,1,260,Credit Expenses,-2828
+16.2,2018-01-05,1,120,Credit Expenses,2828
+17.1,2018-01-05,1,10,New loan raised @ 6%,50000
+17.2,2018-01-05,1,160,New loan raised @ 6%,50000
+18.1,2018-01-09,1,300,Credit Expenses,-2388
+18.2,2018-01-09,1,120,Credit Expenses,2388
+19.1,2018-01-13,1,230,Cost of Sales,-1165
+19.2,2018-01-13,1,60,Cost of Sales,-1165
+20.1,2018-01-13,1,260,Credit Expenses,-3000
+20.2,2018-01-13,1,120,Credit Expenses,3000
+21.1,2018-01-13,1,210,Cash Sales,3882
+21.2,2018-01-13,1,10,Cash Sales,3882
+22.1,2018-01-13,1,230,Cost of Sales,-4618
+22.2,2018-01-13,1,60,Cost of Sales,-4618
+23.1,2018-01-13,1,210,Credit Sales,15394
+23.2,2018-01-13,1,30,Credit Sales,15394
+24.1,2018-01-16,1,280,Credit Expenses,-2920
+24.2,2018-01-16,1,120,Credit Expenses,2920
+25.1,2018-01-19,1,290,Cash expenses,-13
+25.2,2018-01-19,1,20,Cash expenses,-13
+26.1,2018-01-20,1,75,Purchase of shares,80000
+26.2,2018-01-20,1,10,Purchase of shares,-80000
+27.1,2018-01-21,1,290,Credit Expenses,-2100
+27.2,2018-01-21,1,120,Credit Expenses,2100
+28.1,2018-01-21,1,30,Cash Received from Debtors,-14570
+28.2,2018-01-21,1,10,Cash Received from Debtors,14570
+29.1,2018-01-22,1,10,Payment - Credit Expenses,-2394
+29.2,2018-01-22,1,120,Payment - Credit Expenses,-2394
+30.1,2018-01-25,1,230,Cost of Sales,-1092
+30.2,2018-01-25,1,60,Cost of Sales,-1092
+31.1,2018-01-25,1,290,Credit Expenses,-2206
+31.2,2018-01-25,1,120,Credit Expenses,2206
+32.1,2018-01-25,1,210,Cash Sales,3639
+32.2,2018-01-25,1,10,Cash Sales,3639
+33.1,2018-01-25,1,230,Cost of Sales,-4535
+33.2,2018-01-25,1,60,Cost of Sales,-4535
+34.1,2018-01-25,1,210,Credit Sales,15117
+34.2,2018-01-25,1,30,Credit Sales,15117
+35.1,2018-01-26,1,230,Cost of Sales,-919
+35.2,2018-01-26,1,60,Cost of Sales,-919
+36.1,2018-01-26,1,220,Sales Return,-2948
+36.2,2018-01-26,1,20,Sales Return,-2948
+37.1,2018-01-26,1,210,Credit Sales,3064
+37.2,2018-01-26,1,30,Credit Sales,3064
+38.1,2018-01-29,1,230,Cost of Sales,-411
+38.2,2018-01-29,1,60,Cost of Sales,-411
+39.1,2018-01-29,1,210,Credit Sales,1370
+39.2,2018-01-29,1,30,Credit Sales,1370
+40.1,2018-01-29,1,30,Cash Received from Debtors,-15394
+40.2,2018-01-29,1,10,Cash Received from Debtors,15394
+41.1,2018-01-30,1,310,Credit Expenses,-2638
+41.2,2018-01-30,1,120,Credit Expenses,2638
+42.1,2018-01-30,1,10,Payment - Credit Expenses,-2828
+42.2,2018-01-30,1,120,Payment - Credit Expenses,-2828
+43.1,2018-01-31,1,10,Exchange gain/loss,63
+43.2,2018-01-31,1,430,Exchange gain/loss,63
+44.1,2018-01-31,1,10,Interest income,310
+44.2,2018-01-31,1,410,Interest income,310
+45.1,2018-01-31,1,440,Interest expense,-400
+45.2,2018-01-31,1,121,Interest expense,400
+46.1,2018-01-31,1,400,Amortization of intangible assets,-500
+46.2,2018-01-31,1,100,Amortization of intangible assets,-500
+47.1,2018-01-31,1,450,Tax liability for the month,-661
+47.2,2018-01-31,1,122,Tax liability for the month,661
+48.1,2018-01-31,1,240,Salaries,-5000
+48.2,2018-01-31,1,10,Salaries,-5000
+50.1,2018-01-31,1,380,Depreciation for the month,-10000
+50.2,2018-01-31,1,90,Depreciation for the month,-10000
+51.1,2018-02-01,1,300,Cash expenses,-132
+51.2,2018-02-01,1,20,Cash expenses,-132
+52.1,2018-02-01,1,60,Inventory Purchase,20000
+52.2,2018-02-01,1,110,Inventory Purchase,20000
+53.1,2018-02-03,1,290,Credit Expenses,-2396
+53.2,2018-02-03,1,120,Credit Expenses,2396
+54.1,2018-02-06,1,230,Cost of Sales,-1074
+54.2,2018-02-06,1,60,Cost of Sales,-1074
+55.1,2018-02-06,1,350,Credit Expenses,-2278
+55.2,2018-02-06,1,120,Credit Expenses,2278
+56.1,2018-02-06,1,210,Cash Sales,3581
+56.2,2018-02-06,1,10,Cash Sales,3581
+57.1,2018-02-06,1,230,Cost of Sales,-4304
+57.2,2018-02-06,1,60,Cost of Sales,-4304
+58.1,2018-02-06,1,210,Credit Sales,14348
+58.2,2018-02-06,1,30,Credit Sales,14348
+59.1,2018-02-07,1,10,Payment - Credit Expenses,-2388
+59.2,2018-02-07,1,120,Payment - Credit Expenses,-2388
+60.1,2018-02-07,1,10,Payment - Credit Expenses,-3000
+60.2,2018-02-07,1,120,Payment - Credit Expenses,-3000
+61.1,2018-02-08,1,260,Credit Expenses,-2115
+61.2,2018-02-08,1,120,Credit Expenses,2115
+62.1,2018-02-11,1,260,Credit Expenses,-2209
+62.2,2018-02-11,1,120,Credit Expenses,2209
+63.1,2018-02-12,1,10,Payment - Credit Expenses,-2100
+63.2,2018-02-12,1,120,Payment - Credit Expenses,-2100
+64.1,2018-02-14,1,260,Cash expenses,-134
+64.2,2018-02-14,1,20,Cash expenses,-134
+65.1,2018-02-14,1,310,Credit Expenses,-2169
+65.2,2018-02-14,1,120,Credit Expenses,2169
+66.1,2018-02-14,1,10,Payment - Credit Expenses,-2920
+66.2,2018-02-14,1,120,Payment - Credit Expenses,-2920
+67.1,2018-02-15,1,10,Interest expense,-400
+67.2,2018-02-15,1,121,Interest expense,-400
+68.1,2018-02-15,1,30,Cash Received from Debtors,-15117
+68.2,2018-02-15,1,10,Cash Received from Debtors,15117
+69.1,2018-02-15,1,10,Inventory Purchase,-20000
+69.2,2018-02-15,1,110,Inventory Purchase,-20000
+70.1,2018-02-16,1,10,Payment - Credit Expenses,-2206
+70.2,2018-02-16,1,120,Payment - Credit Expenses,-2206
+71.1,2018-02-16,1,350,Credit Expenses,-2267
+71.2,2018-02-16,1,120,Credit Expenses,2267
+72.1,2018-02-18,1,230,Cost of Sales,-1128
+72.2,2018-02-18,1,60,Cost of Sales,-1128
+73.1,2018-02-18,1,210,Cash Sales,3761
+73.2,2018-02-18,1,10,Cash Sales,3761
+74.1,2018-02-18,1,230,Cost of Sales,-4657
+74.2,2018-02-18,1,60,Cost of Sales,-4657
+75.1,2018-02-18,1,210,Credit Sales,15523
+75.2,2018-02-18,1,30,Credit Sales,15523
+76.1,2018-02-19,1,230,Cost of Sales,-385
+76.2,2018-02-19,1,60,Cost of Sales,-385
+77.1,2018-02-19,1,210,Credit Sales,1284
+77.2,2018-02-19,1,30,Credit Sales,1284
+78.1,2018-02-20,1,10,Payment - Credit Expenses,-2638
+78.2,2018-02-20,1,120,Payment - Credit Expenses,-2638
+79.1,2018-02-20,1,220,Sales Return,-3064
+79.2,2018-02-20,1,20,Sales Return,-3064
+80.1,2018-02-21,1,330,Credit Expenses,-2602
+80.2,2018-02-21,1,120,Credit Expenses,2602
+81.1,2018-02-24,1,260,Bad Debts,1317
+81.2,2018-02-24,1,20,Bad Debts,1317
+82.1,2018-02-25,1,260,Credit Expenses,-2527
+82.2,2018-02-25,1,120,Credit Expenses,2527
+83.1,2018-02-26,1,260,Cash expenses,-84
+83.2,2018-02-26,1,20,Cash expenses,-84
+84.1,2018-02-26,1,10,Payment - Credit Expenses,-2396
+84.2,2018-02-26,1,120,Payment - Credit Expenses,-2396
+85.1,2018-02-27,1,230,Cost of Sales,-862
+85.2,2018-02-27,1,60,Cost of Sales,-862
+86.1,2018-02-27,1,210,Credit Sales,2872
+86.2,2018-02-27,1,30,Credit Sales,2872
+87.1,2018-02-27,1,30,Cash Received from Debtors,-14348
+87.2,2018-02-27,1,10,Cash Received from Debtors,14348
+88.1,2018-02-28,1,10,Exchange gain/loss,20
+88.2,2018-02-28,1,430,Exchange gain/loss,20
+89.1,2018-02-28,1,440,Interest expense,-400
+89.2,2018-02-28,1,121,Interest expense,400
+90.1,2018-02-28,1,400,Amortization of intangible assets,-500
+90.2,2018-02-28,1,100,Amortization of intangible assets,-500
+91.1,2018-02-28,1,10,Interest income,570
+91.2,2018-02-28,1,410,Interest income,570
+92.1,2018-02-28,1,450,Tax liability for the month,2227
+92.2,2018-02-28,1,122,Tax liability for the month,-2227
+94.1,2018-02-28,1,240,Salaries,-5000
+94.2,2018-02-28,1,10,Salaries,-5000
+95.1,2018-02-28,1,380,Depreciation for the month,-10000
+95.2,2018-02-28,1,90,Depreciation for the month,-10000
+96.1,2018-03-01,1,350,Credit Expenses,-2092
+96.2,2018-03-01,1,120,Credit Expenses,2092
+97.1,2018-03-01,1,60,Inventory Purchase,20000
+97.2,2018-03-01,1,110,Inventory Purchase,20000
+98.1,2018-03-02,1,230,Cost of Sales,-1024
+98.2,2018-03-02,1,60,Cost of Sales,-1024
+99.1,2018-03-02,1,210,Cash Sales,3414
+99.2,2018-03-02,1,10,Cash Sales,3414
+100.1,2018-03-02,1,230,Cost of Sales,-4375
+100.2,2018-03-02,1,60,Cost of Sales,-4375
+101.1,2018-03-02,1,210,Credit Sales,14582
+101.2,2018-03-02,1,30,Credit Sales,14582
+102.1,2018-03-04,1,10,Payment - Credit Expenses,-2209
+102.2,2018-03-04,1,120,Payment - Credit Expenses,-2209
+103.1,2018-03-05,1,290,Credit Expenses,-2157
+103.2,2018-03-05,1,120,Credit Expenses,2157
+104.1,2018-03-05,1,10,Inventory Purchase,-20000
+104.2,2018-03-05,1,110,Inventory Purchase,-20000
+105.1,2018-03-07,1,260,Credit Expenses,-2522
+105.2,2018-03-07,1,120,Credit Expenses,2522
+106.1,2018-03-07,1,30,Cash Received from Debtors,-15523
+106.2,2018-03-07,1,10,Cash Received from Debtors,15523
+107.1,2018-03-08,1,10,Payment - Credit Expenses,-2169
+107.2,2018-03-08,1,120,Payment - Credit Expenses,-2169
+108.1,2018-03-08,1,10,Payment - Credit Expenses,-2278
+108.2,2018-03-08,1,120,Payment - Credit Expenses,-2278
+109.1,2018-03-09,1,10,Payment - Credit Expenses,-2115
+109.2,2018-03-09,1,120,Payment - Credit Expenses,-2115
+110.1,2018-03-10,1,320,Cash expenses,-180
+110.2,2018-03-10,1,20,Cash expenses,-180
+111.1,2018-03-11,1,260,Credit Expenses,-2197
+111.2,2018-03-11,1,120,Credit Expenses,2197
+112.1,2018-03-12,1,230,Cost of Sales,-379
+112.2,2018-03-12,1,60,Cost of Sales,-379
+113.1,2018-03-12,1,210,Credit Sales,1264
+113.2,2018-03-12,1,30,Credit Sales,1264
+114.1,2018-03-12,1,10,Payment - Credit Expenses,-2267
+114.2,2018-03-12,1,120,Payment - Credit Expenses,-2267
+115.1,2018-03-13,1,350,Credit Expenses,-2705
+115.2,2018-03-13,1,120,Credit Expenses,2705
+116.1,2018-03-14,1,230,Cost of Sales,-1059
+116.2,2018-03-14,1,60,Cost of Sales,-1059
+117.1,2018-03-14,1,210,Cash Sales,3529
+117.2,2018-03-14,1,10,Cash Sales,3529
+118.1,2018-03-14,1,230,Cost of Sales,-4273
+118.2,2018-03-14,1,60,Cost of Sales,-4273
+119.1,2018-03-14,1,210,Credit Sales,14243
+119.2,2018-03-14,1,30,Credit Sales,14243
+120.1,2018-03-15,1,10,Interest expense,-400
+120.2,2018-03-15,1,121,Interest expense,-400
+121.1,2018-03-15,1,260,Credit Expenses,-2806
+121.2,2018-03-15,1,120,Credit Expenses,2806
+122.1,2018-03-15,1,220,Sales Return,-2872
+122.2,2018-03-15,1,20,Sales Return,-2872
+123.1,2018-03-17,1,10,Payment - Credit Expenses,-2602
+123.2,2018-03-17,1,120,Payment - Credit Expenses,-2602
+124.1,2018-03-18,1,260,Credit Expenses,-2368
+124.2,2018-03-18,1,120,Credit Expenses,2368
+125.1,2018-03-18,1,10,Payment - Credit Expenses,-2527
+125.2,2018-03-18,1,120,Payment - Credit Expenses,-2527
+126.1,2018-03-20,1,260,Bad Debts,1370
+126.2,2018-03-20,1,20,Bad Debts,1370
+127.1,2018-03-21,1,30,Cash Received from Debtors,-14582
+127.2,2018-03-21,1,10,Cash Received from Debtors,14582
+128.1,2018-03-22,1,310,Cash expenses,-129
+128.2,2018-03-22,1,20,Cash expenses,-129
+129.1,2018-03-22,1,10,Payment - Credit Expenses,-2092
+129.2,2018-03-22,1,120,Payment - Credit Expenses,-2092
+130.1,2018-03-23,1,330,Credit Expenses,-2875
+130.2,2018-03-23,1,120,Credit Expenses,2875
+131.1,2018-03-26,1,230,Cost of Sales,-1068
+131.2,2018-03-26,1,60,Cost of Sales,-1068
+132.1,2018-03-26,1,210,Cash Sales,3561
+132.2,2018-03-26,1,10,Cash Sales,3561
+133.1,2018-03-26,1,230,Cost of Sales,-4192
+133.2,2018-03-26,1,60,Cost of Sales,-4192
+134.1,2018-03-26,1,210,Credit Sales,13972
+134.2,2018-03-26,1,30,Credit Sales,13972
+135.1,2018-03-27,1,300,Credit Expenses,-2794
+135.2,2018-03-27,1,120,Credit Expenses,2794
+136.1,2018-03-30,1,350,Credit Expenses,-2285
+136.2,2018-03-30,1,120,Credit Expenses,2285
+137.1,2018-03-31,1,10,Exchange gain/loss,108
+137.2,2018-03-31,1,430,Exchange gain/loss,108
+138.1,2018-03-31,1,440,Interest expense,-400
+138.2,2018-03-31,1,121,Interest expense,400
+139.1,2018-03-31,1,10,Interest income,476
+139.2,2018-03-31,1,410,Interest income,476
+140.1,2018-03-31,1,400,Amortization of intangible assets,-500
+140.2,2018-03-31,1,100,Amortization of intangible assets,-500
+141.1,2018-03-31,1,450,Tax liability for the month,1537
+141.2,2018-03-31,1,122,Tax liability for the month,-1537
+143.1,2018-03-31,1,240,Salaries,-5000
+143.2,2018-03-31,1,10,Salaries,-5000
+144.1,2018-03-31,1,380,Depreciation for the month,-10000
+144.2,2018-03-31,1,90,Depreciation for the month,-10000
+145.1,2018-04-01,1,230,Cost of Sales,-848
+145.2,2018-04-01,1,60,Cost of Sales,-848
+146.1,2018-04-01,1,210,Credit Sales,2826
+146.2,2018-04-01,1,30,Credit Sales,2826
+147.1,2018-04-01,1,30,Cash Received from Debtors,-14243
+147.2,2018-04-01,1,10,Cash Received from Debtors,14243
+148.1,2018-04-01,1,60,Inventory Purchase,20000
+148.2,2018-04-01,1,110,Inventory Purchase,20000
+149.1,2018-04-02,1,320,Credit Expenses,-2005
+149.2,2018-04-02,1,120,Credit Expenses,2005
+150.1,2018-04-02,1,10,Payment - Credit Expenses,-2522
+150.2,2018-04-02,1,120,Payment - Credit Expenses,-2522
+151.1,2018-04-03,1,290,Cash expenses,-177
+151.2,2018-04-03,1,20,Cash expenses,-177
+152.1,2018-04-04,1,10,Payment - Credit Expenses,-2157
+152.2,2018-04-04,1,120,Payment - Credit Expenses,-2157
+153.1,2018-04-05,1,230,Cost of Sales,-1375
+153.2,2018-04-05,1,60,Cost of Sales,-1375
+154.1,2018-04-05,1,330,Credit Expenses,-2587
+154.2,2018-04-05,1,120,Credit Expenses,2587
+155.1,2018-04-05,1,210,Cash Sales,4583
+155.2,2018-04-05,1,10,Cash Sales,4583
+156.1,2018-04-05,1,230,Cost of Sales,-5291
+156.2,2018-04-05,1,60,Cost of Sales,-5291
+157.1,2018-04-05,1,210,Credit Sales,17637
+157.2,2018-04-05,1,30,Credit Sales,17637
+158.1,2018-04-06,1,10,Payment - Credit Expenses,-2806
+158.2,2018-04-06,1,120,Payment - Credit Expenses,-2806
+159.1,2018-04-08,1,10,Payment - Credit Expenses,-2705
+159.2,2018-04-08,1,120,Payment - Credit Expenses,-2705
+160.1,2018-04-08,1,300,Credit Expenses,-2805
+160.2,2018-04-08,1,120,Credit Expenses,2805
+161.1,2018-04-09,1,10,Payment - Credit Expenses,-2197
+161.2,2018-04-09,1,120,Payment - Credit Expenses,-2197
+162.1,2018-04-10,1,260,Bad Debts,1284
+162.2,2018-04-10,1,20,Bad Debts,1284
+163.1,2018-04-11,1,260,Credit Expenses,-2248
+163.2,2018-04-11,1,120,Credit Expenses,2248
+164.1,2018-04-13,1,280,Credit Expenses,-2998
+164.2,2018-04-13,1,120,Credit Expenses,2998
+165.1,2018-04-14,1,290,Cash expenses,-25
+165.2,2018-04-14,1,20,Cash expenses,-25
+166.1,2018-04-15,1,10,Interest expense,-400
+166.2,2018-04-15,1,121,Interest expense,-400
+167.1,2018-04-15,1,230,Cost of Sales,-1328
+167.2,2018-04-15,1,60,Cost of Sales,-1328
+168.1,2018-04-15,1,210,Cash Sales,4425
+168.2,2018-04-15,1,10,Cash Sales,4425
+169.1,2018-04-15,1,230,Cost of Sales,-5107
+169.2,2018-04-15,1,60,Cost of Sales,-5107
+170.1,2018-04-15,1,210,Credit Sales,17023
+170.2,2018-04-15,1,30,Credit Sales,17023
+171.1,2018-04-16,1,260,Credit Expenses,-2883
+171.2,2018-04-16,1,120,Credit Expenses,2883
+172.1,2018-04-16,1,30,Cash Received from Debtors,-13972
+172.2,2018-04-16,1,10,Cash Received from Debtors,13972
+173.1,2018-04-17,1,10,Payment - Credit Expenses,-2368
+173.2,2018-04-17,1,120,Payment - Credit Expenses,-2368
+174.1,2018-04-17,1,10,Inventory Purchase,-20000
+174.2,2018-04-17,1,110,Inventory Purchase,-20000
+175.1,2018-04-21,1,230,Cost of Sales,-398
+175.2,2018-04-21,1,60,Cost of Sales,-398
+176.1,2018-04-21,1,210,Credit Sales,1327
+176.2,2018-04-21,1,30,Credit Sales,1327
+177.1,2018-04-21,1,300,Credit Expenses,-2740
+177.2,2018-04-21,1,120,Credit Expenses,2740
+178.1,2018-04-22,1,10,Payment - Credit Expenses,-2285
+178.2,2018-04-22,1,120,Payment - Credit Expenses,-2285
+179.1,2018-04-22,1,220,Sales Return,-2826
+179.2,2018-04-22,1,20,Sales Return,-2826
+180.1,2018-04-22,1,10,Payment - Credit Expenses,-2875
+180.2,2018-04-22,1,120,Payment - Credit Expenses,-2875
+181.1,2018-04-22,1,220,Sales Return,-2968
+181.2,2018-04-22,1,20,Sales Return,-2968
+182.1,2018-04-23,1,230,Cost of Sales,-890
+182.2,2018-04-23,1,60,Cost of Sales,-890
+183.1,2018-04-23,1,210,Credit Sales,2968
+183.2,2018-04-23,1,30,Credit Sales,2968
+184.1,2018-04-24,1,10,Payment - Credit Expenses,-2794
+184.2,2018-04-24,1,120,Payment - Credit Expenses,-2794
+185.1,2018-04-24,1,30,Cash Received from Debtors,-17637
+185.2,2018-04-24,1,10,Cash Received from Debtors,17637
+186.1,2018-04-25,1,230,Cost of Sales,-1323
+186.2,2018-04-25,1,60,Cost of Sales,-1323
+187.1,2018-04-25,1,210,Cash Sales,4409
+187.2,2018-04-25,1,10,Cash Sales,4409
+188.1,2018-04-25,1,230,Cost of Sales,-4992
+188.2,2018-04-25,1,60,Cost of Sales,-4992
+189.1,2018-04-25,1,210,Credit Sales,16641
+189.2,2018-04-25,1,30,Credit Sales,16641
+190.1,2018-04-26,1,310,Cash expenses,-57
+190.2,2018-04-26,1,20,Cash expenses,-57
+191.1,2018-04-26,1,260,Credit Expenses,-2128
+191.2,2018-04-26,1,120,Credit Expenses,2128
+192.1,2018-04-29,1,10,Payment - Credit Expenses,-2005
+192.2,2018-04-29,1,120,Payment - Credit Expenses,-2005
+193.1,2018-04-30,1,10,Exchange gain/loss,74
+193.2,2018-04-30,1,430,Exchange gain/loss,74
+194.1,2018-04-30,1,10,Interest income,398
+194.2,2018-04-30,1,410,Interest income,398
+195.1,2018-04-30,1,440,Interest expense,-400
+195.2,2018-04-30,1,121,Interest expense,400
+196.1,2018-04-30,1,400,Amortization of intangible assets,-500
+196.2,2018-04-30,1,100,Amortization of intangible assets,-500
+197.1,2018-04-30,1,450,Tax liability for the month,-1308
+197.2,2018-04-30,1,122,Tax liability for the month,1308
+198.1,2018-04-30,1,10,Payment - Credit Expenses,-2587
+198.2,2018-04-30,1,120,Payment - Credit Expenses,-2587
+199.1,2018-04-30,1,240,Salaries,-5000
+199.2,2018-04-30,1,10,Salaries,-5000
+201.1,2018-04-30,1,380,Depreciation for the month,-10000
+201.2,2018-04-30,1,90,Depreciation for the month,-10000
+202.1,2018-05-01,1,260,Bad Debts,1264
+202.2,2018-05-01,1,20,Bad Debts,1264
+203.1,2018-05-01,1,310,Credit Expenses,-2746
+203.2,2018-05-01,1,120,Credit Expenses,2746
+204.1,2018-05-01,1,60,Inventory Purchase,20000
+204.2,2018-05-01,1,110,Inventory Purchase,20000
+205.1,2018-05-04,1,10,Payment - Credit Expenses,-2248
+205.2,2018-05-04,1,120,Payment - Credit Expenses,-2248
+206.1,2018-05-04,1,10,Payment - Credit Expenses,-2805
+206.2,2018-05-04,1,120,Payment - Credit Expenses,-2805
+207.1,2018-05-04,1,290,Credit Expenses,-3164
+207.2,2018-05-04,1,120,Credit Expenses,3164
+208.1,2018-05-05,1,230,Cost of Sales,-1228
+208.2,2018-05-05,1,60,Cost of Sales,-1228
+209.1,2018-05-05,1,210,Cash Sales,4093
+209.2,2018-05-05,1,10,Cash Sales,4093
+210.1,2018-05-05,1,230,Cost of Sales,-5397
+210.2,2018-05-05,1,60,Cost of Sales,-5397
+211.1,2018-05-05,1,30,Cash Received from Debtors,-17023
+211.2,2018-05-05,1,10,Cash Received from Debtors,17023
+212.1,2018-05-05,1,210,Credit Sales,17991
+212.2,2018-05-05,1,30,Credit Sales,17991
+213.1,2018-05-06,1,330,Cash expenses,-129
+213.2,2018-05-06,1,20,Cash expenses,-129
+214.1,2018-05-06,1,260,Credit Expenses,-2548
+214.2,2018-05-06,1,120,Credit Expenses,2548
+215.1,2018-05-06,1,10,Payment - Credit Expenses,-2998
+215.2,2018-05-06,1,120,Payment - Credit Expenses,-2998
+216.1,2018-05-09,1,290,Credit Expenses,-2099
+216.2,2018-05-09,1,120,Credit Expenses,2099
+217.1,2018-05-11,1,10,Payment - Credit Expenses,-2883
+217.2,2018-05-11,1,120,Payment - Credit Expenses,-2883
+218.1,2018-05-11,1,30,Cash Received from Debtors,-16641
+218.2,2018-05-11,1,10,Cash Received from Debtors,16641
+219.1,2018-05-11,1,10,Inventory Purchase,-20000
+219.2,2018-05-11,1,110,Inventory Purchase,-20000
+220.1,2018-05-12,1,320,Credit Expenses,-2679
+220.2,2018-05-12,1,120,Credit Expenses,2679
+221.1,2018-05-15,1,230,Cost of Sales,-361
+221.2,2018-05-15,1,60,Cost of Sales,-361
+222.1,2018-05-15,1,10,Interest expense,-400
+222.2,2018-05-15,1,121,Interest expense,-400
+223.1,2018-05-15,1,210,Credit Sales,1204
+223.2,2018-05-15,1,30,Credit Sales,1204
+224.1,2018-05-15,1,230,Cost of Sales,-1222
+224.2,2018-05-15,1,60,Cost of Sales,-1222
+225.1,2018-05-15,1,260,Credit Expenses,-3148
+225.2,2018-05-15,1,120,Credit Expenses,3148
+226.1,2018-05-15,1,210,Cash Sales,4073
+226.2,2018-05-15,1,10,Cash Sales,4073
+227.1,2018-05-15,1,230,Cost of Sales,-5326
+227.2,2018-05-15,1,60,Cost of Sales,-5326
+228.1,2018-05-15,1,210,Credit Sales,17753
+228.2,2018-05-15,1,30,Credit Sales,17753
+229.1,2018-05-16,1,290,Cash expenses,-108
+229.2,2018-05-16,1,20,Cash expenses,-108
+230.1,2018-05-18,1,10,Payment - Credit Expenses,-2740
+230.2,2018-05-18,1,120,Payment - Credit Expenses,-2740
+231.1,2018-05-19,1,300,Credit Expenses,-2330
+231.2,2018-05-19,1,120,Credit Expenses,2330
+232.1,2018-05-20,1,10,Payment - Credit Expenses,-2128
+232.2,2018-05-20,1,120,Payment - Credit Expenses,-2128
+233.1,2018-05-23,1,260,Credit Expenses,-2898
+233.2,2018-05-23,1,120,Credit Expenses,2898
+234.1,2018-05-25,1,230,Cost of Sales,-1335
+234.2,2018-05-25,1,60,Cost of Sales,-1335
+235.1,2018-05-25,1,10,Payment - Credit Expenses,-3164
+235.2,2018-05-25,1,120,Payment - Credit Expenses,-3164
+236.1,2018-05-25,1,210,Cash Sales,4451
+236.2,2018-05-25,1,10,Cash Sales,4451
+237.1,2018-05-25,1,230,Cost of Sales,-5338
+237.2,2018-05-25,1,60,Cost of Sales,-5338
+238.1,2018-05-25,1,210,Credit Sales,17792
+238.2,2018-05-25,1,30,Credit Sales,17792
+239.1,2018-05-27,1,30,Cash Received from Debtors,-17991
+239.2,2018-05-27,1,10,Cash Received from Debtors,17991
+240.1,2018-05-28,1,10,Payment - Credit Expenses,-2548
+240.2,2018-05-28,1,120,Payment - Credit Expenses,-2548
+241.1,2018-05-28,1,290,Credit Expenses,-3073
+241.2,2018-05-28,1,120,Credit Expenses,3073
+242.1,2018-05-29,1,10,Payment - Credit Expenses,-2746
+242.2,2018-05-29,1,120,Payment - Credit Expenses,-2746
+243.1,2018-05-31,1,320,Cash expenses,-55
+243.2,2018-05-31,1,20,Cash expenses,-55
+244.1,2018-05-31,1,10,Exchange gain/loss,87
+244.2,2018-05-31,1,430,Exchange gain/loss,87
+245.1,2018-05-31,1,10,Interest income,342
+245.2,2018-05-31,1,410,Interest income,342
+246.1,2018-05-31,1,450,Tax liability for the month,-390
+246.2,2018-05-31,1,122,Tax liability for the month,390
+247.1,2018-05-31,1,440,Interest expense,-400
+247.2,2018-05-31,1,121,Interest expense,400
+248.1,2018-05-31,1,400,Amortization of intangible assets,-500
+248.2,2018-05-31,1,100,Amortization of intangible assets,-500
+249.1,2018-05-31,1,350,Credit Expenses,-2684
+249.2,2018-05-31,1,120,Credit Expenses,2684
+251.1,2018-05-31,1,240,Salaries,-5000
+251.2,2018-05-31,1,10,Salaries,-5000
+252.1,2018-05-31,1,380,Depreciation for the month,-10000
+252.2,2018-05-31,1,90,Depreciation for the month,-10000
+253.1,2018-06-01,1,10,Payment - Credit Expenses,-2099
+253.2,2018-06-01,1,120,Payment - Credit Expenses,-2099
+254.1,2018-06-01,1,60,Inventory Purchase,20000
+254.2,2018-06-01,1,110,Inventory Purchase,20000
+255.1,2018-06-02,1,230,Cost of Sales,-808
+255.2,2018-06-02,1,60,Cost of Sales,-808

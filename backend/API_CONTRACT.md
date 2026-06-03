@@ -61,7 +61,18 @@ type RuleName =
   | "HEURE_NOCTURNE"
   | "MONTANT_ROND"
   | "FOURNISSEUR_UNIQUE"
-  | "BENFORD_DEVIATION";
+  | "ISOLATION_FOREST";
+
+/** Benford: alert at file level only (not in transaction.anomalies). */
+interface DatasetAlert {
+  type: "BENFORD_DEVIATION";
+  scope: "file";
+  chi2: number;
+  threshold: number;       // 15.507 (5%, 8 df)
+  n_amounts: number;
+  top_digit?: number;
+  message: string;
+}
 
 interface Anomaly {
   rule_name: RuleName;
@@ -89,10 +100,13 @@ interface Summary {
   total: number;
   flagged_count: number;
   pct_flagged: number;        // percentage, 1 decimal
+  dataset_alerts: DatasetAlert[];
+  dataset_alerts_count: number;
 }
 
 interface AnalyzeResponse {
   summary: Summary;
+  schema_report?: Record<string, unknown>;
   transactions: Transaction[];
 }
 
