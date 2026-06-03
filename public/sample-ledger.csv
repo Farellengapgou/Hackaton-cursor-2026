@@ -1,0 +1,4 @@
+id,date,description,amount,risk_score,anomalies
+TX-2026-0100,2026-06-03T10:00:00,Consulting Fee - Unknown LLC,950000,88,Benford Law deviation; Unreferenced vendor
+TX-2026-0101,2026-06-02T22:30:00,Mobile transfer duplicate,125000,92,Duplicate of prior payment
+TX-2026-0102,2026-06-01T14:00:00,Office rent,450000,25,
