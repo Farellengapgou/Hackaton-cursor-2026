@@ -1,5 +1,7 @@
+import { useMemo } from 'react';
 import { useTransaction } from '../hooks/useTransaction';
 import ChatPanel from './ChatPanel';
+import ExportPDFButton from './ExportPDFButton';
 
 const SAMPLE_TRANSACTIONS = [
   {
@@ -28,15 +30,61 @@ const SAMPLE_TRANSACTIONS = [
   },
 ];
 
+const STATS = {
+  total_transactions: 250,
+  total_anomalies: 12,
+  score_moyen: 78,
+};
+
+const ANOMALIES_WITH_AI = [
+  {
+    id: 'TX-2026-0042',
+    montant: 1250000,
+    fournisseur: 'SARL Import Douala',
+    score_risque: 82,
+    explication_ia:
+      "Le montant dépasse nettement la moyenne historique pour ce fournisseur non référencé. Une vérification des pièces justificatives et du bon de commande est recommandée avant validation comptable.",
+  },
+  {
+    id: 'TX-2026-0040',
+    montant: 890000,
+    fournisseur: 'Mobile Money Agent #447',
+    score_risque: 71,
+    explication_ia:
+      "Transaction enregistrée en dehors des heures ouvrables habituelles, ce qui augmente le risque d'erreur ou de fraude interne. Contacter le responsable de caisse pour confirmer l'autorisation.",
+  },
+];
+
 export default function TransactionDashboard() {
   const { selectedTransaction, setSelectedTransaction } = useTransaction();
+
+  const reportData = useMemo(
+    () => ({
+      total_transactions: STATS.total_transactions,
+      total_anomalies: STATS.total_anomalies,
+      score_moyen: STATS.score_moyen,
+      anomalies: ANOMALIES_WITH_AI.map(
+        ({ id, montant, fournisseur, score_risque, explication_ia }) => ({
+          id,
+          montant,
+          fournisseur,
+          score_risque,
+          explication_ia,
+        }),
+      ),
+    }),
+    [],
+  );
 
   return (
     <div className="flex h-screen bg-gray-100">
       <main className="flex-1 overflow-auto p-6">
-        <h1 className="mb-4 text-xl font-bold text-gray-900">
-          Transactions suspectes
-        </h1>
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h1 className="text-xl font-bold text-gray-900">
+            Transactions suspectes
+          </h1>
+          <ExportPDFButton reportData={reportData} />
+        </div>
         <table className="w-full border-collapse overflow-hidden rounded-lg bg-white shadow">
           <thead>
             <tr className="bg-gray-50 text-left text-xs font-semibold uppercase tracking-wide text-gray-600">
