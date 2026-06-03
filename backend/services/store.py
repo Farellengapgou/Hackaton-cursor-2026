@@ -14,6 +14,7 @@ class InMemoryStore:
     def __init__(self) -> None:
         self._transactions: list[dict[str, Any]] = []
         self._anomalies: list[dict[str, Any]] = []
+        self._history: list[dict[str, Any]] = []
 
     def save(
         self,
@@ -28,6 +29,12 @@ class InMemoryStore:
 
     def get_anomalies(self) -> list[dict[str, Any]]:
         return self._anomalies
+
+    def record_history(self, entry: dict[str, Any]) -> None:
+        self._history.append(entry)
+
+    def get_history(self) -> list[dict[str, Any]]:
+        return self._history
 
     def find_anomaly(self, anomaly_id: str) -> dict[str, Any] | None:
         return next((a for a in self._anomalies if a["id"] == anomaly_id), None)

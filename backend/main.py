@@ -1,20 +1,24 @@
 """Point d'entrée unifié FinAudit.
 
 Combine le backend hackathon (``/analyze``, détecteur riche, démo) et la
-structure modulaire ``origin/backend`` (``/api/transactions``, store, config).
+structure modulaire ``origin/backend`` (``/api/transactions``, store, config),
+le tout protégé par l'authentification par jeton Bearer (voir ``auth``).
 """
 
 from __future__ import annotations
 
 import io
+from datetime import datetime, timezone
 from typing import Any
 
 import pandas as pd
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+from api.routes_auth import router as auth_router
 from api.routes_transactions import router as transactions_router
+from auth.dependencies import get_current_user
 from config import settings
 from detector import AnomalyDetector, build_summary
 from explainer import get_explainer
@@ -48,12 +52,44 @@ def _flatten_anomalies(transactions: list[dict[str, Any]]) -> list[dict[str, Any
     return flat
 
 
-def _persist_result(transactions: list[dict[str, Any]], summary: dict[str, Any]) -> dict[str, Any]:
+def _persist_result(
+    transactions: list[dict[str, Any]],
+    summary: dict[str, Any],
+    username: str | None = None,
+) -> dict[str, Any]:
     global last_result
     payload = {"summary": summary, "transactions": transactions}
     last_result = payload
-    store.save(transactions, _flatten_anomalies(transactions))
+    flat = _flatten_anomalies(transactions)
+    store.save(transactions, flat)
+    store.record_history(
+        {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "username": username,
+            "transactions_count": len(transactions),
+            "anomalies_count": len(flat),
+        }
+    )
     return payload
+
+
+async def _analyze_file(file: UploadFile, username: str | None) -> dict[str, Any]:
+    """Import CSV + détection — aucun appel API externe."""
+    if not file.filename or not file.filename.lower().endswith(".csv"):
+        raise HTTPException(status_code=400, detail="Fichier CSV requis")
+
+    content = await file.read()
+    try:
+        df = pd.read_csv(io.BytesIO(content), encoding="utf-8-sig")
+    except Exception as exc:
+        raise HTTPException(status_code=400, detail=f"CSV invalide: {exc}") from exc
+
+    if df.empty:
+        raise HTTPException(status_code=400, detail="CSV vide")
+
+    transactions = detector.analyze(df)
+    summary = build_summary(transactions)
+    return _persist_result(transactions, summary, username)
 
 
 def _get_transaction(transaction_id: str) -> dict[str, Any]:
@@ -78,6 +114,7 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    app.include_router(auth_router)
     app.include_router(transactions_router)
     return app
 
@@ -91,34 +128,28 @@ def health() -> dict[str, str]:
 
 
 @app.post("/analyze")
-async def analyze(file: UploadFile = File(...)) -> dict[str, Any]:
-    """Import CSV + détection — aucun appel API externe."""
-    if not file.filename or not file.filename.lower().endswith(".csv"):
-        raise HTTPException(status_code=400, detail="Fichier CSV requis")
-
-    content = await file.read()
-    try:
-        df = pd.read_csv(io.BytesIO(content), encoding="utf-8-sig")
-    except Exception as exc:
-        raise HTTPException(status_code=400, detail=f"CSV invalide: {exc}") from exc
-
-    if df.empty:
-        raise HTTPException(status_code=400, detail="CSV vide")
-
-    transactions = detector.analyze(df)
-    summary = build_summary(transactions)
-    return _persist_result(transactions, summary)
+async def analyze(
+    file: UploadFile = File(...),
+    current_user: dict[str, Any] = Depends(get_current_user),
+) -> dict[str, Any]:
+    return await _analyze_file(file, current_user.get("username"))
 
 
 @app.post("/explain")
-def explain(body: ExplainRequest) -> dict[str, Any]:
+def explain(
+    body: ExplainRequest,
+    current_user: dict[str, Any] = Depends(get_current_user),
+) -> dict[str, Any]:
     tx = _get_transaction(body.transaction_id)
     explainer = get_explainer()
     return explainer.explain(tx, tx.get("anomalies", []))
 
 
 @app.post("/chat")
-def chat(body: ChatRequest) -> dict[str, Any]:
+def chat(
+    body: ChatRequest,
+    current_user: dict[str, Any] = Depends(get_current_user),
+) -> dict[str, Any]:
     tx = _get_transaction(body.transaction_id)
     explainer = get_explainer()
     return explainer.chat(tx, tx.get("anomalies", []), body.message, body.history)
@@ -130,6 +161,9 @@ def api_health() -> dict[str, str]:
 
 
 @app.post("/api/upload")
-async def api_upload(file: UploadFile = File(...)) -> dict[str, Any]:
+async def api_upload(
+    file: UploadFile = File(...),
+    current_user: dict[str, Any] = Depends(get_current_user),
+) -> dict[str, Any]:
     """Alias de ``/analyze`` (compatibilité branche ``origin/backend``)."""
-    return await analyze(file)
+    return await _analyze_file(file, current_user.get("username"))
