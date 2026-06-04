@@ -7,13 +7,18 @@ le tout protégé par l'authentification par jeton Bearer (voir ``auth``).
 
 from __future__ import annotations
 
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
 
-load_dotenv(Path(__file__).resolve().parent / ".env")
+_BACKEND_DIR = Path(__file__).resolve().parent
+_PROJECT_ROOT = _BACKEND_DIR.parent
+# Racine (Docker compose) puis backend/.env (dev local, peut surcharger)
+load_dotenv(_PROJECT_ROOT / ".env")
+load_dotenv(_BACKEND_DIR / ".env", override=True)
 
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -30,7 +35,6 @@ from schema_mapper import read_upload
 from services.store import store
 
 detector = AnomalyDetector()
-last_result: dict[str, Any] | None = None
 
 
 class ExplainRequest(BaseModel):
@@ -63,22 +67,23 @@ def _persist_result(
     schema_report: dict[str, Any],
     username: str | None = None,
 ) -> dict[str, Any]:
-    global last_result
+    user_key = (username or "").strip() or "_anonymous"
     payload = {
         "summary": summary,
         "transactions": transactions,
         "schema_report": schema_report,
     }
-    last_result = payload
     flat = _flatten_anomalies(transactions)
-    store.save(transactions, flat)
+    store.save(user_key, transactions, flat)
+    store.set_last_result(user_key, payload)
     store.record_history(
+        user_key,
         {
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "username": username,
+            "username": user_key,
             "transactions_count": len(transactions),
             "anomalies_count": len(flat),
-        }
+        },
     )
     return payload
 
@@ -101,14 +106,32 @@ async def _analyze_file(file: UploadFile, username: str | None) -> dict[str, Any
         raise HTTPException(status_code=400, detail=f"Fichier invalide: {exc}") from exc
 
     if df.empty:
-        raise HTTPException(status_code=400, detail="Fichier vide")
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Fichier vide ou sans ligne de transaction lisible. "
+                "Vérifiez l'en-tête (id, date, fournisseur, montant…) et au moins une ligne de données."
+            ),
+        )
+
+    min_rows = int(os.getenv("FINAUDIT_MIN_ROWS", "2"))
+    if len(df) < min_rows:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                f"Fichier trop court : {len(df)} ligne(s) détectée(s), "
+                f"minimum {min_rows} transaction(s) requises (hors en-tête). "
+                "Utilisez demo_transactions_large.csv pour un jeu de test volumineux."
+            ),
+        )
 
     transactions, dataset_alerts = detector.analyze(df)
     summary = build_summary(transactions, dataset_alerts)
     return _persist_result(transactions, summary, schema_report, username)
 
 
-def _get_transaction(transaction_id: str) -> dict[str, Any]:
+def _get_transaction(transaction_id: str, username: str) -> dict[str, Any]:
+    last_result = store.get_last_result(username)
     if not last_result:
         raise HTTPException(
             status_code=400,
@@ -125,7 +148,7 @@ def create_app() -> FastAPI:
     app = FastAPI(title=settings.APP_TITLE)
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=[settings.CORS_ORIGIN],
+        allow_origins=settings.CORS_ORIGINS,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -142,11 +165,14 @@ app = create_app()
 def health() -> dict[str, Any]:
     import os
 
+    from prompts import GEMINI_MODEL
+
     gemini = bool(os.getenv("GEMINI_API_KEY", "").strip())
     return {
         "status": "ok",
         "llm_configured": gemini,
         "explainer_mode": "gemini" if gemini else "template",
+        "gemini_model": GEMINI_MODEL if gemini else None,
     }
 
 
@@ -163,12 +189,14 @@ def explain(
     body: ExplainRequest,
     current_user: dict[str, Any] = Depends(get_current_user),
 ) -> dict[str, Any]:
-    tx = _get_transaction(body.transaction_id)
-    summary = last_result.get("summary", {}) if last_result else {}
+    username = current_user["username"]
+    tx = _get_transaction(body.transaction_id, username)
+    last_result = store.get_last_result(username) or {}
+    summary = last_result.get("summary", {})
     ctx = build_audit_context(
         tx,
-        last_result.get("transactions", []) if last_result else [],
-        last_result.get("schema_report") if last_result else None,
+        last_result.get("transactions", []),
+        last_result.get("schema_report"),
         summary.get("dataset_alerts"),
     )
     return get_explainer().explain(tx, tx.get("anomalies", []), ctx)
@@ -179,12 +207,14 @@ def chat(
     body: ChatRequest,
     current_user: dict[str, Any] = Depends(get_current_user),
 ) -> dict[str, Any]:
-    tx = _get_transaction(body.transaction_id)
-    summary = last_result.get("summary", {}) if last_result else {}
+    username = current_user["username"]
+    tx = _get_transaction(body.transaction_id, username)
+    last_result = store.get_last_result(username) or {}
+    summary = last_result.get("summary", {})
     ctx = build_audit_context(
         tx,
-        last_result.get("transactions", []) if last_result else [],
-        last_result.get("schema_report") if last_result else None,
+        last_result.get("transactions", []),
+        last_result.get("schema_report"),
         summary.get("dataset_alerts"),
     )
     return get_explainer().chat(

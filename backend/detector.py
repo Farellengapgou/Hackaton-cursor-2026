@@ -6,9 +6,28 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import IsolationForest
 
 from schema_mapper import CANONICAL_COLUMNS
+
+_IsolationForest: type | None = None
+_sklearn_unavailable: str | None = None
+
+
+def _get_isolation_forest() -> type | None:
+    """Import paresseux — évite l'échec au démarrage si sklearn/pyarrow est cassé."""
+    global _IsolationForest, _sklearn_unavailable
+    if _IsolationForest is not None:
+        return _IsolationForest
+    if _sklearn_unavailable is not None:
+        return None
+    try:
+        from sklearn.ensemble import IsolationForest
+
+        _IsolationForest = IsolationForest
+        return _IsolationForest
+    except ImportError as exc:
+        _sklearn_unavailable = str(exc)
+        return None
 
 # Réexport pour compatibilité
 __all__ = [
@@ -257,8 +276,12 @@ class AnomalyDetector:
                     except Exception:
                         pass
 
+        IsolationForestCls = _get_isolation_forest()
+        if IsolationForestCls is None:
+            return [0.0] * n, [False] * n
+
         try:
-            clf = IsolationForest(
+            clf = IsolationForestCls(
                 contamination=0.1,
                 random_state=42,
                 n_estimators=100,

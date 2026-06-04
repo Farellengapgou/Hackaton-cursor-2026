@@ -1,0 +1,258 @@
+{
+  "app": {
+    "name": "FinAudit AI",
+    "tagline": "Audit financier & détection de fraude",
+    "console": "Console d'audit forensic"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "transactions": "Transactions",
+    "report": "Rapport d'audit",
+    "help": "Centre d'aide"
+  },
+  "auth": {
+    "login": "Connexion",
+    "register": "Créer un compte",
+    "logout": "Déconnexion",
+    "username": "Identifiant de connexion",
+    "usernameHint": "Nom choisi pour vous connecter (pas une adresse e-mail). Ex. marie_audit",
+    "usernamePlaceholder": "ex. marie_audit",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "loginTitle": "Accès sécurisé",
+    "loginSubtitle": "Plateforme d'audit financier professionnel",
+    "registerTitle": "Inscription auditeur",
+    "registerSubtitle": "Créez votre accès à la console forensic",
+    "noAccount": "Pas encore de compte ?",
+    "hasAccount": "Déjà un compte ?",
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "errors": {
+      "invalid": "Identifiants invalides",
+      "invalidCredentials": "Identifiant ou mot de passe incorrect.",
+      "invalidUsername": "Identifiant de connexion invalide.",
+      "mismatch": "Les mots de passe ne correspondent pas",
+      "required": "Identifiant et mot de passe sont requis"
+    }
+  },
+  "dashboard": {
+    "title": "Tableau de bord d'audit",
+    "subtitle": "Import de données · Détection d'anomalies · Scoring de risque",
+    "uploadTitle": "Déposez votre fichier CSV ici",
+    "uploadSubtitle": "ou cliquez pour parcourir · Analyse automatique",
+    "analyzing": "Analyse des données en cours…",
+    "globalRisk": "Score de risque global",
+    "kpi": {
+      "transactions": "Transactions",
+      "anomalies": "Anomalies",
+      "anomaliesHint": "Cliquer pour voir les transactions avec anomalies",
+      "totalAmount": "Montant total",
+      "critical": "Critiques"
+    },
+    "charts": {
+      "timeline": "Évolution des transactions",
+      "anomalies": "Répartition des anomalies",
+      "severity": "Distribution par sévérité",
+      "riskScores": "Distribution des scores de risque"
+    },
+    "preview": "Aperçu des transactions",
+    "insights": "Insights analytiques",
+    "noData": "Importez un fichier CSV pour lancer l'analyse",
+    "analyzeRequired": "Effectuez d'abord un import CSV pour accéder aux données"
+  },
+  "transactions": {
+    "title": "Registre des transactions",
+    "subtitle": "{{filtered}} sur {{total}} transactions · Cliquez pour le détail",
+    "filters": {
+      "severity": "Sévérité",
+      "amountRange": "Plage de montant",
+      "dateFrom": "Date début",
+      "dateTo": "Date fin",
+      "all": "Toutes",
+      "onlyFlagged": "Uniquement les transactions avec anomalies",
+      "sortedByAnomaly": "Triées par degré d'anomalie (critique → faible)",
+      "sortBy": "Trier par",
+      "sortSeverity": "Gravité de l'anomalie",
+      "sortDate": "Date",
+      "sortName": "Nom / fournisseur",
+      "sortOrder": "Ordre",
+      "sortDesc": "Décroissant (critique → faible)",
+      "sortAsc": "Croissant"
+    },
+    "activeFilter": "Filtre actif :",
+    "ruleFilter": "Règle « {{rule}} »",
+    "riskFilter": "Score {{range}}",
+    "clearFilters": "Effacer tout",
+    "columns": {
+      "date": "Date",
+      "description": "Description",
+      "amount": "Montant",
+      "severity": "Sévérité",
+      "riskScore": "Score risque",
+      "anomalies": "Anomalies"
+    },
+    "empty": "Aucune transaction ne correspond aux filtres",
+    "detail": "Détail transaction",
+    "flags": "Signaux détectés",
+    "forensicNote": "Note forensic",
+    "askAssistant": "Consulter l'assistant"
+  },
+  "severity": {
+    "critique": "Critique",
+    "suspect": "Suspect",
+    "a_verifier": "À vérifier",
+    "safe": "Conforme"
+  },
+  "risk": {
+    "critical": "Critique",
+    "elevated": "Élevé",
+    "low": "Faible"
+  },
+  "report": {
+    "title": "Rapport d'audit forensic",
+    "subtitle": "Aperçu · Export PDF pour les parties prenantes",
+    "export": "Télécharger le rapport PDF",
+    "exporting": "Génération du PDF…",
+    "exportError": "L'export PDF nécessite le backend. Réessayez après analyse.",
+    "confidential": "Confidentiel",
+    "generated": "Généré le",
+    "executiveSummary": "Résumé exécutif",
+    "riskOverview": "Vue d'ensemble du risque",
+    "anomalyBreakdown": "Répartition des anomalies",
+    "criticalTransactions": "Transactions critiques",
+    "footer": "FinAudit AI · Analyse forensic automatisée · Usage audit uniquement",
+    "summaryText": "Cet examen forensic automatisé a analysé {{total}} transactions et identifié {{anomalies}} anomalies nécessitant l'attention de l'auditeur. Le score de risque composite est de {{score}}/100."
+  },
+  "assistant": {
+    "title": "Assistant forensic",
+    "subtitle": "Analyse contextuelle des anomalies",
+    "placeholder": "Posez une question sur cette transaction…",
+    "send": "Envoyer",
+    "selectTransaction": "Sélectionnez une transaction pour obtenir de l'aide",
+    "analyzeFirst": "Importez et analysez un CSV avant d'utiliser l'assistant",
+    "suggestions": {
+      "why": "Pourquoi y a-t-il une anomalie ?",
+      "benford": "Expliquer l'anomalie Benford",
+      "outlier": "Pourquoi est-ce un outlier ?",
+      "duplicate": "Analyser la duplication",
+      "actions": "Actions recommandées"
+    },
+    "greeting": "Analyse forensic prête pour la transaction **{{id}}**.\n\n**{{description}}** · {{amount}}\n\n**Score de risque :** {{score}}/100 · **Sévérité :** {{severity}}"
+  },
+  "help": {
+    "title": "Centre d'aide",
+    "subtitle": "Documentation et support utilisateur",
+    "faqTitle": "Questions fréquentes",
+    "guideTitle": "Guide d'utilisation",
+    "supportTitle": "Contacter le support",
+    "faq": {
+      "import": {
+        "q": "Comment importer un fichier CSV ?",
+        "a": "Depuis le tableau de bord, glissez-déposez votre fichier CSV dans la zone d'import ou cliquez pour le sélectionner. L'analyse démarre automatiquement et alimente tous les graphiques et tableaux."
+      },
+      "risk": {
+        "q": "Comment lire le score de risque ?",
+        "a": "Le score (0–100) agrège les signaux détectés : loi de Benford, outliers statistiques, duplications, etc. ≥ 70 = critique (rouge), 40–69 = suspect (orange), < 40 = à vérifier ou conforme (vert)."
+      },
+      "anomalies": {
+        "q": "Que signifient les anomalies ?",
+        "a": "Chaque anomalie correspond à une règle analytique : Benford (distribution des chiffres), outlier (montant atypique), duplication (paiement en double), etc. Consultez le détail transaction pour la raison exacte."
+      }
+    },
+    "guide": {
+      "step1": "Connectez-vous et accédez au tableau de bord",
+      "step2": "Importez votre journal comptable au format CSV",
+      "step3": "Analysez les KPI, graphiques et transactions signalées",
+      "step4": "Générez le rapport PDF pour vos parties prenantes"
+    },
+    "support": {
+      "subject": "Sujet",
+      "message": "Message",
+      "submit": "Envoyer la demande",
+      "success": "Demande enregistrée (simulation UI)"
+    }
+  },
+  "common": {
+    "loading": "Chargement…",
+    "error": "Une erreur est survenue",
+    "retry": "Réessayer",
+    "close": "Fermer",
+    "source": "Source",
+    "engineActive": "Moteur actif",
+    "liveStatus": "Statut en direct",
+    "anomaliesCount": "anomalies",
+    "viewAnomalies": "Voir les transactions avec anomalies →",
+    "currency": "FCFA"
+  },
+  "theme": {
+    "dark": "Mode sombre",
+    "light": "Mode clair"
+  },
+  "landing": {
+    "nav": {
+      "about": "À propos",
+      "features": "Fonctionnalités",
+      "trust": "Confiance"
+    },
+    "hero": {
+      "tagline": "Détecter · Analyser · Protéger",
+      "title": "Audit financier",
+      "titleAccent": "de confiance",
+      "subtitle": "Plateforme professionnelle d'analyse des transactions, détection d'anomalies et production de rapports pour experts-comptables et auditeurs.",
+      "ctaPrimary": "Accéder à la plateforme",
+      "ctaSecondary": "En savoir plus",
+      "scroll": "Défiler",
+      "imageAlt": "Professionnelle africaine en bureau, analyse de documents comptables"
+    },
+    "about": {
+      "label": "À propos",
+      "title": "Une nouvelle génération d'audit financier",
+      "body": "FinAudit centralise l'analyse des flux transactionnels, la détection d'anomalies et la production de rapports structurés pour les équipes d'audit et de conformité.",
+      "bullet1": "Analyse des transactions financières",
+      "bullet2": "Détection d'anomalies et fraudes",
+      "bullet3": "Calcul de score de risque",
+      "bullet4": "Génération de rapports d'audit"
+    },
+    "features": {
+      "label": "Fonctionnalités",
+      "title": "Tout le cycle d'audit, en un seul outil",
+      "card1Title": "Analyse des transactions",
+      "card1Desc": "Import CSV / Excel, normalisation et vue consolidée.",
+      "card2Title": "Détection d'anomalies",
+      "card2Desc": "Règles métier et signaux statistiques documentés.",
+      "card3Title": "Score de risque",
+      "card3Desc": "Priorisation claire des lignes à contrôler.",
+      "card4Title": "Rapports d'audit",
+      "card4Desc": "Synthèse exécutive et export PDF professionnel."
+    },
+    "audience": {
+      "title": "Pour qui ?",
+      "subtitle": "Conçu pour les professionnels de la finance et du contrôle.",
+      "item1": "Experts-comptables",
+      "item2": "Auditeurs financiers",
+      "item3": "Analystes de risques",
+      "item4": "Institutions financières",
+      "item5": "PME et directions financières"
+    },
+    "trust": {
+      "title": "Confiance & rigueur",
+      "subtitle": "Une approche institutionnelle : traçabilité, clarté des signaux et livrables exploitables en revue d'audit.",
+      "card1Title": "Sécurité des données",
+      "card1Desc": "Traitement local serveur, authentification et sessions contrôlées.",
+      "card2Title": "Analyse structurée",
+      "card2Desc": "Chaque alerte est expliquée : type de signal, score et action recommandée.",
+      "card3Title": "Résultats auditables",
+      "card3Desc": "Rapports PDF et historique des anomalies pour vos dossiers.",
+      "card4Title": "Conformité financière",
+      "card4Desc": "Outil d'aide à la décision — complément de vos procédures internes."
+    },
+    "cta": {
+      "title": "Prêt pour votre prochain audit ?",
+      "subtitle": "Connectez-vous ou accédez directement au tableau de bord après inscription.",
+      "dashboard": "Accéder au dashboard",
+      "login": "Se connecter",
+      "footer": "© {{year}} FinAudit — Plateforme d'audit financier"
+    },
+    "logoAlt": "FinAudit — Détecter. Analyser. Protéger."
+  }
+}

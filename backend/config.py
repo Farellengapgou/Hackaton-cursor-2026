@@ -14,8 +14,15 @@ class Settings:
 
     APP_TITLE: str = "FinAudit API"
 
-    # Origine autorisée pour CORS (front Vite en développement).
-    CORS_ORIGIN: str = os.getenv("FINAUDIT_CORS_ORIGIN", "http://localhost:5173")
+    # Origines CORS (séparées par des virgules). Ex. https://mon-site.com,http://localhost:8080
+    CORS_ORIGINS: list[str] = [
+        o.strip()
+        for o in os.getenv(
+            "FINAUDIT_CORS_ORIGIN",
+            "http://localhost:5173,http://localhost:8080",
+        ).split(",")
+        if o.strip()
+    ]
 
     # Limite de lignes traitées par upload (garde-fou de performance).
     MAX_ROWS: int = int(os.getenv("FINAUDIT_MAX_ROWS", "5000"))

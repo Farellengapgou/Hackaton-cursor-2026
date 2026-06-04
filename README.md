@@ -5,9 +5,20 @@ MVP hackathon **J.U.I.N 2026**, thème 11 : import CSV, détection multi-règles
 ## Structure
 
 ```text
-backend/          # FastAPI unifié (hackathon + modules api/, services/, detection/)
-frontend/         # React + Vite — port 5173
-demo/             # Futurs jeux de données démo
+backend/          # FastAPI — API, détection, Gemini
+web/              # React + Vite — interface principale (port 5173 en dev)
+DEPLOY.md         # Docker Compose et déploiement production
+docker-compose.yml
+```
+
+## Déploiement
+
+Voir [DEPLOY.md](DEPLOY.md) — `docker compose up -d --build` puis http://localhost:8080
+
+## Frontend actif
+
+```bash
+cd web && npm install && npm run dev
 ```
 
 Les branches `feature/backend-finaudit` et `backend` partagent le même backend unifié après merge (détecteur riche + routes modulaires `/api/*`).

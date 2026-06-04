@@ -1,0 +1,45 @@
+# FinAudit — Script voix off (démo ~6 minutes)
+# Une section = un fichier MP3 généré par generate_voiceover.py
+
+[intro]
+Bienvenue sur FinAudit, la plateforme d'audit financier et de détection d'anomalies.
+FinAudit aide les experts-comptables et auditeurs à analyser des fichiers de transactions,
+à repérer les signaux suspects et à produire un rapport d'audit clair.
+
+[landing]
+Sur la page d'accueil, vous découvrez les fonctionnalités : analyse des flux,
+détection d'anomalies, score de risque et rapports professionnels.
+Cliquez sur « Accéder à la plateforme » pour vous connecter ou créer un compte.
+
+[inscription]
+Créez un identifiant de connexion : par exemple marie_audit.
+Ce n'est pas une adresse e-mail, mais un nom d'utilisateur choisi par vous.
+Le mot de passe doit contenir au moins huit caractères, une majuscule, une minuscule et un chiffre.
+
+[import]
+Sur le tableau de bord, importez un fichier CSV ou Excel de transactions.
+En quelques secondes, le moteur analyse les montants, détecte les doublons, les montants atypiques,
+les heures inhabituelles et d'autres signaux documentés.
+
+[dashboard]
+Les indicateurs résument le risque global et le nombre d'anomalies.
+Les graphiques sont cliquables : par exemple, choisissez un type de signal
+pour filtrer directement la liste des transactions concernées.
+
+[transactions]
+Dans le tableau, sélectionnez une ligne pour voir le détail :
+score de risque, montant, signaux détectés et explication.
+Le bouton « Analyser » ouvre l'assistant pour poser des questions sur cette transaction.
+
+[assistant]
+L'assistant d'audit répond en français à partir des faits détectés sur la transaction.
+Si Gemini est configuré sur le serveur, les réponses sont enrichies par l'intelligence artificielle ;
+sinon, le mode règles fournit une analyse structurée fiable.
+
+[rapport]
+Le rapport d'audit regroupe une conclusion, les types de signaux et les transactions prioritaires.
+Exportez un PDF portrait ou paysage pour vos dossiers ou vos présentations clients.
+
+[conclusion]
+FinAudit : détecter, analyser, protéger.
+Merci de votre attention. Pour tester, utilisez les données de démonstration ou votre propre fichier CSV.

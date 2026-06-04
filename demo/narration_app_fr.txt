@@ -1,0 +1,28 @@
+# FinAudit — voix off démo application (cible ≤ 3 min)
+
+[intro]
+Bienvenue sur FinAudit, la plateforme d'audit financier et de détection d'anomalies pour les experts-comptables.
+
+[landing]
+La page d'accueil présente l'analyse des flux, la détection de signaux suspects et les rapports professionnels.
+
+[login]
+Connectez-vous avec votre identifiant, par exemple marie audit, et un mot de passe sécurisé.
+
+[import]
+Importez un fichier CSV ou Excel : en quelques secondes, le moteur détecte montants atypiques, doublons et autres anomalies.
+
+[dashboard]
+Le tableau de bord affiche le score de risque, les indicateurs clés et des graphiques interactifs.
+
+[transactions]
+Parcourez les transactions signalées, consultez le détail et lancez l'analyse sur une ligne.
+
+[assistant]
+L'assistant répond en français sur chaque transaction, enrichi par l'intelligence artificielle si Gemini est activé.
+
+[rapport]
+Le rapport d'audit synthétise les priorités ; exportez un PDF pour vos dossiers clients.
+
+[conclusion]
+FinAudit : détecter, analyser, protéger. Merci de votre attention.

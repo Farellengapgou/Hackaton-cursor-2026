@@ -1,0 +1,172 @@
+{
+  "app": {
+    "name": "FinAudit AI",
+    "tagline": "Financial audit & fraud detection",
+    "console": "Forensic audit console"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "transactions": "Transactions",
+    "report": "Audit report",
+    "help": "Help center"
+  },
+  "auth": {
+    "login": "Sign in",
+    "register": "Create account",
+    "logout": "Sign out",
+    "email": "Email address",
+    "password": "Password",
+    "name": "Full name",
+    "confirmPassword": "Confirm password",
+    "loginTitle": "Secure access",
+    "loginSubtitle": "Professional financial audit platform",
+    "registerTitle": "Auditor registration",
+    "registerSubtitle": "Create your forensic console access",
+    "noAccount": "No account yet?",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "errors": {
+      "invalid": "Invalid credentials",
+      "mismatch": "Passwords do not match",
+      "required": "All fields are required"
+    }
+  },
+  "dashboard": {
+    "title": "Audit dashboard",
+    "subtitle": "Data import · Anomaly detection · Risk scoring",
+    "uploadTitle": "Drop your CSV file here",
+    "uploadSubtitle": "or click to browse · Automatic analysis",
+    "analyzing": "Analyzing data…",
+    "globalRisk": "Global risk score",
+    "kpi": {
+      "transactions": "Transactions",
+      "anomalies": "Anomalies",
+      "totalAmount": "Total amount",
+      "critical": "Critical"
+    },
+    "charts": {
+      "timeline": "Transaction timeline",
+      "anomalies": "Anomaly distribution",
+      "severity": "Severity distribution",
+      "riskScores": "Risk score distribution"
+    },
+    "preview": "Transaction preview",
+    "insights": "Analytical insights",
+    "noData": "Upload a CSV file to start analysis",
+    "analyzeRequired": "Import a CSV first to access data"
+  },
+  "transactions": {
+    "title": "Transaction ledger",
+    "subtitle": "{{filtered}} of {{total}} transactions · Click for detail",
+    "filters": {
+      "severity": "Severity",
+      "amountRange": "Amount range",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "all": "All"
+    },
+    "columns": {
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "severity": "Severity",
+      "riskScore": "Risk score",
+      "anomalies": "Anomalies"
+    },
+    "empty": "No transactions match your filters",
+    "detail": "Transaction detail",
+    "flags": "Detected signals",
+    "forensicNote": "Forensic note",
+    "askAssistant": "Ask assistant"
+  },
+  "severity": {
+    "critique": "Critical",
+    "suspect": "Suspect",
+    "a_verifier": "Review",
+    "safe": "Compliant"
+  },
+  "risk": {
+    "critical": "Critical",
+    "elevated": "Elevated",
+    "low": "Low"
+  },
+  "report": {
+    "title": "Forensic audit report",
+    "subtitle": "Preview · PDF export for stakeholders",
+    "export": "Download PDF report",
+    "exporting": "Generating PDF…",
+    "exportError": "PDF export requires backend. Retry after analysis.",
+    "confidential": "Confidential",
+    "generated": "Generated on",
+    "executiveSummary": "Executive summary",
+    "riskOverview": "Risk overview",
+    "anomalyBreakdown": "Anomaly breakdown",
+    "criticalTransactions": "Critical transactions",
+    "footer": "FinAudit AI · Automated forensic analysis · Audit use only",
+    "summaryText": "This automated forensic review analyzed {{total}} transactions and identified {{anomalies}} anomalies requiring auditor attention. Composite risk score is {{score}}/100."
+  },
+  "assistant": {
+    "title": "Forensic assistant",
+    "subtitle": "Contextual anomaly analysis",
+    "placeholder": "Ask about this transaction…",
+    "send": "Send",
+    "selectTransaction": "Select a transaction for assistance",
+    "analyzeFirst": "Import and analyze a CSV before using the assistant",
+    "suggestions": {
+      "benford": "Explain Benford anomaly",
+      "outlier": "Why is this an outlier?",
+      "duplicate": "Analyze duplication",
+      "actions": "Recommended actions"
+    },
+    "greeting": "Forensic analysis ready for transaction **{{id}}**.\n\n**{{description}}** · {{amount}}\n\n**Risk score:** {{score}}/100 · **Severity:** {{severity}}"
+  },
+  "help": {
+    "title": "Help center",
+    "subtitle": "Documentation and user support",
+    "faqTitle": "Frequently asked questions",
+    "guideTitle": "User guide",
+    "supportTitle": "Contact support",
+    "faq": {
+      "import": {
+        "q": "How do I import a CSV file?",
+        "a": "From the dashboard, drag and drop your CSV into the import zone or click to select it. Analysis starts automatically and feeds all charts and tables."
+      },
+      "risk": {
+        "q": "How do I read the risk score?",
+        "a": "The score (0–100) aggregates detected signals: Benford's law, statistical outliers, duplications, etc. ≥ 70 = critical (red), 40–69 = suspect (orange), < 40 = review or compliant (green)."
+      },
+      "anomalies": {
+        "q": "What do anomalies mean?",
+        "a": "Each anomaly maps to an analytical rule: Benford (digit distribution), outlier (atypical amount), duplication (double payment), etc. See transaction detail for the exact reason."
+      }
+    },
+    "guide": {
+      "step1": "Sign in and open the dashboard",
+      "step2": "Import your ledger CSV file",
+      "step3": "Review KPIs, charts and flagged transactions",
+      "step4": "Generate the PDF report for stakeholders"
+    },
+    "support": {
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Submit request",
+      "success": "Request recorded (UI simulation)"
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "source": "Source",
+    "engineActive": "Engine active",
+    "liveStatus": "Live status",
+    "anomaliesCount": "anomalies",
+    "currency": "FCFA"
+  },
+  "theme": {
+    "dark": "Dark mode",
+    "light": "Light mode"
+  }
+}

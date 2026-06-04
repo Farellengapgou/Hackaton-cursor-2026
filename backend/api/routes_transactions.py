@@ -20,25 +20,25 @@ router = APIRouter()
 def get_transactions(
     current_user: dict[str, Any] = Depends(get_current_user),
 ) -> list[dict[str, Any]]:
-    return store.get_transactions()
+    return store.get_transactions(current_user["username"])
 
 
 @router.get("/api/anomalies")
 def get_anomalies(
     current_user: dict[str, Any] = Depends(get_current_user),
 ) -> list[dict[str, Any]]:
-    return store.get_anomalies()
+    return store.get_anomalies(current_user["username"])
 
 
 @router.get("/api/stats")
 def get_stats(
     current_user: dict[str, Any] = Depends(get_current_user),
 ) -> dict[str, Any]:
-    return compute_stats()
+    return compute_stats(current_user["username"])
 
 
 @router.get("/api/history")
 def get_history(
     current_user: dict[str, Any] = Depends(get_current_user),
 ) -> list[dict[str, Any]]:
-    return store.get_history()
+    return store.get_history(current_user["username"])

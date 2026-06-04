@@ -1,61 +1,61 @@
 id,date,heure,fournisseur,montant,categorie,validateur
-T001,2025-01-01,12:15,Paie personnel — RH interne,925420,salaires,M. Abena N.
-T002,2025-01-14,08:00,Paie personnel — RH interne,395230,salaires,Mme. Fotso K.
-T003,2025-01-01,16:15,Maintenance Bureautique SARL,2246290,services,Mme. Fotso K.
-T004,2025-01-28,08:15,Agence Voyages Cameroun Express,1744480,transport,M. Tchamba P.
-T005,2025-01-31,13:00,ENEO,392890,energie,M. Abena N.
-T006,2025-01-20,12:00,Boulangerie Le Pain du Quartier,1896490,fournitures,M. Abena N.
-T007,2025-01-10,17:00,Taxi Union Douala,2375960,transport,M. Abena N.
-T008,2025-01-08,12:00,Orange Cameroun,971870,telecom,M. Abena N.
-T009,2025-01-15,13:15,Agence Voyages Cameroun Express,1529630,transport,Mme. Fotso K.
-T010,2025-01-23,09:15,Paie personnel — RH interne,2204460,salaires,Mme. Fotso K.
-T011,2025-01-13,12:15,CDE,1346630,energie,M. Abena N.
-T012,2025-01-13,12:00,ENEO,883350,energie,M. Nguema J.
-T013,2025-01-07,15:45,Paie personnel — RH interne,1890460,salaires,M. Tchamba P.
-T014,2025-01-24,16:30,ENEO,2408380,energie,M. Nguema J.
-T015,2025-01-08,10:45,Agence Voyages Cameroun Express,389730,transport,M. Abena N.
-T016,2025-01-21,10:45,CAMTEL,2452650,telecom,Mme. Etoa L.
-T017,2025-01-17,12:00,Agence Voyages Cameroun Express,485980,transport,M. Nguema J.
-T018,2025-01-10,14:15,Boulangerie Le Pain du Quartier,1868030,fournitures,M. Tchamba P.
-T019,2025-01-17,09:30,Cabinet Me Nkodo,2095230,services,Mme. Fotso K.
-T020,2025-01-06,16:00,CDE,2466310,energie,Mme. Etoa L.
-T021,2025-01-30,13:30,CAMTEL,990590,telecom,Mme. Fotso K.
-T022,2025-01-03,15:00,Cabinet Me Nkodo,2198840,services,Mme. Fotso K.
-T023,2025-01-31,16:15,CDE,1100400,energie,M. Nguema J.
-T024,2025-01-30,16:15,Taxi Union Douala,1290080,transport,M. Tchamba P.
-T025,2025-01-08,11:00,Agence Voyages Cameroun Express,1394210,transport,M. Nguema J.
-T026,2025-01-08,08:00,Cabinet Me Nkodo,253340,services,M. Abena N.
-T027,2025-01-03,16:15,MTN Cameroun,1156850,telecom,Mme. Etoa L.
-T028,2025-01-24,17:00,ENEO,1013030,energie,Mme. Etoa L.
-T029,2025-01-22,14:30,Taxi Union Douala,1748200,transport,Mme. Etoa L.
-T030,2025-01-22,09:00,Paie personnel — RH interne,1666450,salaires,M. Tchamba P.
-T031,2025-01-07,11:45,CAMTEL,588320,telecom,Mme. Fotso K.
-T032,2025-01-08,09:45,Imprimerie Centrale Yaoundé,2265000,fournitures,M. Abena N.
-T033,2025-01-03,11:15,Paie personnel — RH interne,1678970,salaires,Mme. Etoa L.
-T034,2025-01-29,08:15,CDE,1562020,energie,Mme. Etoa L.
-T035,2025-01-10,14:45,Imprimerie Centrale Yaoundé,645940,fournitures,M. Tchamba P.
-T036,2025-01-24,16:00,ENEO,1294580,energie,M. Abena N.
-T037,2025-01-17,16:15,Nettoyage Propre-Tech,251830,services,M. Nguema J.
-T038,2025-01-03,17:00,CAMTEL,977130,telecom,M. Abena N.
-T039,2025-01-20,08:00,Cabinet Me Nkodo,1733730,services,M. Nguema J.
-T040,2025-01-30,12:15,Maintenance Bureautique SARL,1298440,services,M. Tchamba P.
-T041,2025-01-22,12:45,Taxi Union Douala,1314510,transport,M. Abena N.
-T042,2025-01-20,17:00,MTN Cameroun,315500,telecom,Mme. Fotso K.
-T043,2025-01-30,13:00,Nettoyage Propre-Tech,1013780,services,M. Tchamba P.
-T044,2025-01-27,16:30,CDE,2176080,energie,M. Nguema J.
-T045,2025-01-31,10:30,SABC Distribution,491110,fournitures,M. Abena N.
-T046,2025-01-09,12:15,Paie personnel — RH interne,1416080,salaires,M. Tchamba P.
-T047,2025-01-09,08:00,Nettoyage Propre-Tech,1752490,services,M. Tchamba P.
-T048,2025-01-14,10:15,MTN Cameroun,185000,telecom,M. Tchamba P.
-T049,2025-01-14,12:15,MTN Cameroun,185000,telecom,M. Tchamba P.
-T050,2025-01-05,02:34,GLOBAL INVEST LTD,4750000,investissement,—
-T051,2025-01-22,14:30,ENEO,58574680,energie,Mme. Fotso K.
-T052,2025-01-17,11:00,Société Equipements Premium CM,10000000,immobilier,M. Abena N.
-T053,2025-01-02,08:30,ETS Mendong Fournitures,71500,fournitures,M. Tchamba P.
-T054,2025-01-06,15:45,SABC Distribution,78200,fournitures,M. Abena N.
-T055,2025-01-03,10:00,Boulangerie Le Pain du Quartier,725000,fournitures,M. Nguema J.
-T056,2025-01-14,10:00,Boulangerie Le Pain du Quartier,74800,fournitures,M. Tchamba P.
-T057,2025-01-29,08:30,ETS Mendong Fournitures,712340,fournitures,Mme. Fotso K.
-T058,2025-01-22,09:30,Imprimerie Centrale Yaoundé,79050,fournitures,M. Nguema J.
-T059,2025-01-24,10:15,ETS Mendong Fournitures,756000,fournitures,Mme. Fotso K.
-T060,2025-01-29,14:00,ETS Mendong Fournitures,73100,fournitures,M. Tchamba P.
+T0001,2025-11-18,10:45,ENEO,2452650,energie,Mme. Etoa L.
+T0002,2025-05-23,13:45,Papeterie du Centre,71900,fournitures,M. Tchamba P.
+T0003,2025-10-02,09:45,Cabinet Me Nkodo,337650,services,M. Tchamba P.
+T0004,2025-04-18,13:15,Maintenance Bureautique SARL,1096170,services,Mme. Etoa L.
+T0005,2025-02-06,16:15,MTN Cameroun,1156850,telecom,Mme. Etoa L.
+T0006,2025-12-01,16:00,Maintenance Bureautique SARL,2284060,services,Mme. Bekolo A.
+T0007,2025-12-26,09:15,Total Energies CM,2204460,transport,Mme. Fotso K.
+T0008,2025-01-20,15:15,ETS Mendong Fournitures,756000,fournitures,Mme. Etoa L.
+T0009,2025-05-09,16:00,Agence Foncière du Centre,485980,immobilier,M. Nguema J.
+T0010,2025-05-08,09:45,Nettoyage Propre-Tech,2265000,services,M. Abena N.
+T0011,2025-05-15,16:15,Orange Cameroun,2098340,telecom,M. Abena N.
+T0012,2025-05-02,10:45,CAMTEL,2003920,telecom,Mme. Fotso K.
+T0013,2025-09-17,17:15,Maintenance Bureautique SARL,639820,services,Mme. Fotso K.
+T0014,2025-03-17,14:15,SABC Distribution,71500,fournitures,M. Tchamba P.
+T0015,2025-05-16,09:00,ENEO,2277590,energie,M. Tchamba P.
+T0016,2025-02-17,14:00,Paie personnel — RH interne,1488670,salaires,M. Tchamba P.
+T0017,2025-03-14,10:15,MTN Cameroun,185000,telecom,M. Tchamba P.
+T0018,2025-01-30,16:00,GLOBAL INVEST LTD,771700,investissement,M. Nguema J.
+T0019,2025-10-20,17:45,Total Energies CM,1013030,transport,Mme. Etoa L.
+T0020,2025-04-23,10:45,Agence Foncière du Centre,389730,immobilier,M. Abena N.
+T0021,2025-01-05,02:34,GLOBAL INVEST LTD,4750000,investissement,—
+T0022,2025-10-16,09:00,ENEO,2214180,energie,M. Nguema J.
+T0023,2025-07-14,12:15,Imprimerie Centrale Yaoundé,1346630,fournitures,M. Abena N.
+T0024,2025-02-17,14:30,Cabinet Me Nkodo,190030,services,M. Tchamba P.
+T0025,2025-12-24,14:30,Cabinet Me Nkodo,1149590,services,Mme. Fotso K.
+T0026,2025-04-09,11:45,ENEO,588320,energie,Mme. Fotso K.
+T0027,2025-12-11,09:00,GLOBAL INVEST LTD,1666450,investissement,M. Tchamba P.
+T0028,2025-09-08,08:00,Orange Cameroun,1504990,telecom,M. Tchamba P.
+T0029,2025-06-11,14:30,Taxi Union Douala,283160,transport,M. Nguema J.
+T0030,2025-12-04,15:15,ETS Mendong Fournitures,1100400,fournitures,M. Nguema J.
+T0031,2025-03-24,15:45,Boulangerie Le Pain du Quartier,2307090,fournitures,M. Abena N.
+T0032,2025-03-21,11:15,ETS Mendong Fournitures,74800,fournitures,Mme. Etoa L.
+T0033,2025-05-07,11:00,GLOBAL INVEST LTD,1394210,investissement,M. Nguema J.
+T0034,2025-02-05,11:30,Cabinet Me Nkodo,1178610,services,Mme. Etoa L.
+T0035,2025-10-24,16:00,Taxi Union Douala,1294580,transport,M. Abena N.
+T0036,2025-12-23,16:45,Nettoyage Propre-Tech,645940,services,M. Tchamba P.
+T0037,2025-05-21,11:15,ENEO,588540,energie,M. Abena N.
+T0038,2025-03-14,12:15,MTN Cameroun,185000,telecom,M. Tchamba P.
+T0039,2025-01-21,13:15,ETS Mendong Fournitures,78200,fournitures,Mme. Bekolo A.
+T0040,2025-07-01,16:45,Papeterie du Centre,725000,fournitures,Mme. Bekolo A.
+T0041,2025-10-15,16:30,ETS Mendong Fournitures,2408380,fournitures,M. Nguema J.
+T0042,2025-05-01,14:00,SNH Cameroun,2345520,energie,M. Nguema J.
+T0043,2025-04-23,08:00,Total Energies CM,253340,transport,M. Abena N.
+T0044,2025-06-06,11:15,SABC Distribution,73100,fournitures,Mme. Bekolo A.
+T0045,2025-03-26,14:00,Promoteur Immobilier Littoral,1611710,immobilier,Mme. Etoa L.
+T0046,2025-05-17,11:00,Société Equipements Premium CM,10000000,immobilier,M. Abena N.
+T0047,2025-08-22,14:30,ENEO,50826922,energie,Mme. Fotso K.
+T0048,2025-02-10,09:45,Taxi Union Douala,300780,transport,M. Nguema J.
+T0049,2025-03-18,16:00,SNH Cameroun,1527960,energie,M. Nguema J.
+T0050,2025-06-09,14:30,Promoteur Immobilier Littoral,1813210,immobilier,M. Nguema J.
+T0051,2025-02-18,09:45,Promoteur Immobilier Littoral,1465330,immobilier,Mme. Etoa L.
+T0052,2025-05-16,14:15,Paie personnel — RH interne,1242680,salaires,M. Tchamba P.
+T0053,2025-02-05,08:15,Paie personnel — RH interne,1195810,salaires,Mme. Fotso K.
+T0054,2025-12-26,16:45,Orange Cameroun,916590,telecom,M. Nguema J.
+T0055,2025-05-08,12:15,SABC Distribution,79050,fournitures,Mme. Etoa L.
+T0056,2025-02-11,14:30,Orange Cameroun,1080090,telecom,Mme. Bekolo A.
+T0057,2025-12-02,15:45,Paie personnel — RH interne,1890460,salaires,M. Tchamba P.
+T0058,2025-06-24,09:30,Maintenance Bureautique SARL,1791610,services,Mme. Etoa L.
+T0059,2025-01-13,10:30,Imprimerie Centrale Yaoundé,712340,fournitures,Mme. Bekolo A.
+T0060,2025-05-23,15:30,CDE,679790,energie,M. Tchamba P.

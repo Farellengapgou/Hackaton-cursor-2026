@@ -1,0 +1,258 @@
+{
+  "app": {
+    "name": "FinAudit AI",
+    "tagline": "Financial audit & fraud detection",
+    "console": "Forensic audit console"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "transactions": "Transactions",
+    "report": "Audit report",
+    "help": "Help center"
+  },
+  "auth": {
+    "login": "Sign in",
+    "register": "Create account",
+    "logout": "Sign out",
+    "username": "Login identifier",
+    "usernameHint": "Name you choose to sign in (not an email address). E.g. marie_audit",
+    "usernamePlaceholder": "e.g. marie_audit",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "loginTitle": "Secure access",
+    "loginSubtitle": "Professional financial audit platform",
+    "registerTitle": "Auditor registration",
+    "registerSubtitle": "Create your forensic console access",
+    "noAccount": "No account yet?",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "errors": {
+      "invalid": "Invalid credentials",
+      "invalidCredentials": "Incorrect login identifier or password.",
+      "invalidUsername": "Invalid login identifier.",
+      "mismatch": "Passwords do not match",
+      "required": "Login identifier and password are required"
+    }
+  },
+  "dashboard": {
+    "title": "Audit dashboard",
+    "subtitle": "Data import · Anomaly detection · Risk scoring",
+    "uploadTitle": "Drop your CSV file here",
+    "uploadSubtitle": "or click to browse · Automatic analysis",
+    "analyzing": "Analyzing data…",
+    "globalRisk": "Global risk score",
+    "kpi": {
+      "transactions": "Transactions",
+      "anomalies": "Anomalies",
+      "anomaliesHint": "Click to view transactions with anomalies",
+      "totalAmount": "Total amount",
+      "critical": "Critical"
+    },
+    "charts": {
+      "timeline": "Transaction timeline",
+      "anomalies": "Anomaly distribution",
+      "severity": "Severity distribution",
+      "riskScores": "Risk score distribution"
+    },
+    "preview": "Transaction preview",
+    "insights": "Analytical insights",
+    "noData": "Upload a CSV file to start analysis",
+    "analyzeRequired": "Import a CSV first to access data"
+  },
+  "transactions": {
+    "title": "Transaction ledger",
+    "subtitle": "{{filtered}} of {{total}} transactions · Click for detail",
+    "filters": {
+      "severity": "Severity",
+      "amountRange": "Amount range",
+      "dateFrom": "From date",
+      "dateTo": "To date",
+      "all": "All",
+      "onlyFlagged": "Only transactions with anomalies",
+      "sortedByAnomaly": "Sorted by anomaly severity (critical → low)",
+      "sortBy": "Sort by",
+      "sortSeverity": "Anomaly severity",
+      "sortDate": "Date",
+      "sortName": "Name / vendor",
+      "sortOrder": "Order",
+      "sortDesc": "Descending (critical → low)",
+      "sortAsc": "Ascending"
+    },
+    "activeFilter": "Active filter:",
+    "ruleFilter": "Rule « {{rule}} »",
+    "riskFilter": "Score {{range}}",
+    "clearFilters": "Clear all",
+    "columns": {
+      "date": "Date",
+      "description": "Description",
+      "amount": "Amount",
+      "severity": "Severity",
+      "riskScore": "Risk score",
+      "anomalies": "Anomalies"
+    },
+    "empty": "No transactions match your filters",
+    "detail": "Transaction detail",
+    "flags": "Detected signals",
+    "forensicNote": "Forensic note",
+    "askAssistant": "Ask assistant"
+  },
+  "severity": {
+    "critique": "Critical",
+    "suspect": "Suspect",
+    "a_verifier": "Review",
+    "safe": "Compliant"
+  },
+  "risk": {
+    "critical": "Critical",
+    "elevated": "Elevated",
+    "low": "Low"
+  },
+  "report": {
+    "title": "Forensic audit report",
+    "subtitle": "Preview · PDF export for stakeholders",
+    "export": "Download PDF report",
+    "exporting": "Generating PDF…",
+    "exportError": "PDF export requires backend. Retry after analysis.",
+    "confidential": "Confidential",
+    "generated": "Generated on",
+    "executiveSummary": "Executive summary",
+    "riskOverview": "Risk overview",
+    "anomalyBreakdown": "Anomaly breakdown",
+    "criticalTransactions": "Critical transactions",
+    "footer": "FinAudit AI · Automated forensic analysis · Audit use only",
+    "summaryText": "This automated forensic review analyzed {{total}} transactions and identified {{anomalies}} anomalies requiring auditor attention. Composite risk score is {{score}}/100."
+  },
+  "assistant": {
+    "title": "Forensic assistant",
+    "subtitle": "Contextual anomaly analysis",
+    "placeholder": "Ask about this transaction…",
+    "send": "Send",
+    "selectTransaction": "Select a transaction for assistance",
+    "analyzeFirst": "Import and analyze a CSV before using the assistant",
+    "suggestions": {
+      "why": "Why is there an anomaly?",
+      "benford": "Explain Benford anomaly",
+      "outlier": "Why is this an outlier?",
+      "duplicate": "Analyze duplication",
+      "actions": "Recommended actions"
+    },
+    "greeting": "Forensic analysis ready for transaction **{{id}}**.\n\n**{{description}}** · {{amount}}\n\n**Risk score:** {{score}}/100 · **Severity:** {{severity}}"
+  },
+  "help": {
+    "title": "Help center",
+    "subtitle": "Documentation and user support",
+    "faqTitle": "Frequently asked questions",
+    "guideTitle": "User guide",
+    "supportTitle": "Contact support",
+    "faq": {
+      "import": {
+        "q": "How do I import a CSV file?",
+        "a": "From the dashboard, drag and drop your CSV into the import zone or click to select it. Analysis starts automatically and feeds all charts and tables."
+      },
+      "risk": {
+        "q": "How do I read the risk score?",
+        "a": "The score (0–100) aggregates detected signals: Benford's law, statistical outliers, duplications, etc. ≥ 70 = critical (red), 40–69 = suspect (orange), < 40 = review or compliant (green)."
+      },
+      "anomalies": {
+        "q": "What do anomalies mean?",
+        "a": "Each anomaly maps to an analytical rule: Benford (digit distribution), outlier (atypical amount), duplication (double payment), etc. See transaction detail for the exact reason."
+      }
+    },
+    "guide": {
+      "step1": "Sign in and open the dashboard",
+      "step2": "Import your ledger CSV file",
+      "step3": "Review KPIs, charts and flagged transactions",
+      "step4": "Generate the PDF report for stakeholders"
+    },
+    "support": {
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Submit request",
+      "success": "Request recorded (UI simulation)"
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "source": "Source",
+    "engineActive": "Engine active",
+    "liveStatus": "Live status",
+    "anomaliesCount": "anomalies",
+    "viewAnomalies": "View transactions with anomalies →",
+    "currency": "FCFA"
+  },
+  "theme": {
+    "dark": "Dark mode",
+    "light": "Light mode"
+  },
+  "landing": {
+    "nav": {
+      "about": "About",
+      "features": "Features",
+      "trust": "Trust"
+    },
+    "hero": {
+      "tagline": "Detect · Analyze · Protect",
+      "title": "Financial audit",
+      "titleAccent": "you can trust",
+      "subtitle": "Professional platform for transaction analysis, anomaly detection, and audit reporting for accountants and auditors.",
+      "ctaPrimary": "Open the platform",
+      "ctaSecondary": "Learn more",
+      "scroll": "Scroll down",
+      "imageAlt": "African professional in office reviewing accounting documents"
+    },
+    "about": {
+      "label": "About",
+      "title": "A new generation of financial audit",
+      "body": "FinAudit centralizes transaction flow analysis, anomaly detection, and structured reporting for audit and compliance teams.",
+      "bullet1": "Financial transaction analysis",
+      "bullet2": "Anomaly and fraud detection",
+      "bullet3": "Risk score calculation",
+      "bullet4": "Audit report generation"
+    },
+    "features": {
+      "label": "Features",
+      "title": "The full audit cycle in one tool",
+      "card1Title": "Transaction analysis",
+      "card1Desc": "CSV / Excel import, normalization, and consolidated view.",
+      "card2Title": "Anomaly detection",
+      "card2Desc": "Business rules and documented statistical signals.",
+      "card3Title": "Risk score",
+      "card3Desc": "Clear prioritization of lines to review.",
+      "card4Title": "Audit reports",
+      "card4Desc": "Executive summary and professional PDF export."
+    },
+    "audience": {
+      "title": "Who is it for?",
+      "subtitle": "Built for finance and control professionals.",
+      "item1": "Chartered accountants",
+      "item2": "Financial auditors",
+      "item3": "Risk analysts",
+      "item4": "Financial institutions",
+      "item5": "SMEs and finance departments"
+    },
+    "trust": {
+      "title": "Trust & rigor",
+      "subtitle": "An institutional approach: traceability, clear signals, and deliverables ready for audit review.",
+      "card1Title": "Data security",
+      "card1Desc": "Server-side processing, authentication, and controlled sessions.",
+      "card2Title": "Structured analysis",
+      "card2Desc": "Every alert is explained: signal type, score, and recommended action.",
+      "card3Title": "Auditable results",
+      "card3Desc": "PDF reports and anomaly history for your files.",
+      "card4Title": "Financial compliance",
+      "card4Desc": "Decision-support tool — complements your internal procedures."
+    },
+    "cta": {
+      "title": "Ready for your next audit?",
+      "subtitle": "Sign in or go straight to the dashboard after registration.",
+      "dashboard": "Open dashboard",
+      "login": "Sign in",
+      "footer": "© {{year}} FinAudit — Financial audit platform"
+    },
+    "logoAlt": "FinAudit — Detect. Analyze. Protect."
+  }
+}

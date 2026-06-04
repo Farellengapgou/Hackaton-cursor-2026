@@ -33,6 +33,11 @@ def build_audit_context(
     median_file = sorted(all_amounts)[len(all_amounts) // 2] if all_amounts else 0.0
 
     anomalies = transaction.get("anomalies", [])
+    rule_lines = [
+        f"{a.get('rule_name')}: {a.get('reason')}"
+        for a in anomalies
+        if a.get("rule_name")
+    ]
     return {
         "transaction": {
             "id": transaction.get("id"),
@@ -42,6 +47,19 @@ def build_audit_context(
             "montant_fcfa": montant,
             "categorie": categorie,
             "validateur": transaction.get("validateur", ""),
+            "description": transaction.get("description", ""),
+        },
+        "assistant_brief": {
+            "resume": (
+                f"Transaction {transaction.get('id')} — {montant:,.0f} FCFA — "
+                f"{fournisseur or 'fournisseur N/A'} — score {transaction.get('risk_score', 0)}/100"
+            ),
+            "signaux": rule_lines or ["aucun signal"],
+            "comparaisons": {
+                "ratio_vs_moyenne_categorie": round(ratio_cat, 2),
+                "fournisseur_occurrences_dans_fichier": fournisseur_occ,
+                "montant_median_fichier_fcfa": median_file,
+            },
         },
         "risk_score": transaction.get("risk_score", 0),
         "severity": transaction.get("severity", "a_verifier"),

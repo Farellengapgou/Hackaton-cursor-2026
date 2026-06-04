@@ -107,3 +107,256 @@ header p {
 .chat-placeholder {
   color: var(--muted);
 }
+
+.auth-page {
+  max-width: 420px;
+  margin: 4rem auto;
+}
+
+.auth-card {
+  background: #1a2332;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.auth-card label {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.auth-card input {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.5rem;
+  border: 1px solid #2f3b4a;
+  border-radius: 6px;
+  background: #0f1419;
+  color: var(--text);
+}
+
+.auth-card button[type='submit'] {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.6rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.user-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.user-bar button {
+  padding: 0.35rem 0.75rem;
+  background: #2f3b4a;
+  color: var(--text);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.dropzone {
+  position: relative;
+  border: 2px dashed #378add;
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  background: #1a2332;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.dropzone.drag-over {
+  border-color: #ef9f27;
+  background: #243044;
+}
+
+.dropzone.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.dropzone input[type='file'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.dropzone-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.dropzone-hint {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.pill-btn {
+  cursor: pointer;
+  border: 1px solid transparent;
+  font: inherit;
+}
+
+.pill-btn.active {
+  border-color: var(--accent);
+  background: #378add33;
+}
+
+.anomaly-focus {
+  background: #243044;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.anomaly-focus p {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+}
+
+.chat-thread {
+  max-height: 220px;
+  overflow-y: auto;
+  margin: 0.75rem 0;
+}
+
+.chat-bubble {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.chat-bubble.user {
+  background: #378add33;
+  margin-left: 1rem;
+}
+
+.chat-bubble.assistant {
+  background: #0f1419;
+  margin-right: 1rem;
+}
+
+.chat-bubble .role {
+  font-size: 0.7rem;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.chat-input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.chat-input-row textarea {
+  flex: 1;
+  resize: vertical;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #2f3b4a;
+  background: #0f1419;
+  color: var(--text);
+}
+
+.chat-input-row button {
+  align-self: flex-end;
+  padding: 0.5rem 1rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.quick-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.quick-actions button {
+  font-size: 0.8rem;
+  padding: 0.35rem 0.6rem;
+  background: #2f3b4a;
+  color: var(--text);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.stat-value.small {
+  font-size: 0.9rem;
+}
+
+.alert-wide {
+  flex: 1 1 100%;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid #2f3b4a;
+}
+
+.alert-reason {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.center {
+  text-align: center;
+  padding: 2rem;
+}
+
+.rec {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}

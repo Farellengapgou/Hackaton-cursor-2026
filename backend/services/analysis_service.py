@@ -26,14 +26,18 @@ def _flatten_anomalies(transactions: list[dict[str, Any]]) -> list[dict[str, Any
     return flat
 
 
-def analyze_upload(content: bytes, filename: str = "upload.csv") -> dict[str, Any]:
+def analyze_upload(
+    content: bytes,
+    filename: str = "upload.csv",
+    username: str = "_anonymous",
+) -> dict[str, Any]:
     global _last_schema_report
     df, schema_report = read_upload(content, filename)
     _last_schema_report = schema_report
     transactions, dataset_alerts = _detector.analyze(df)
     summary = build_summary(transactions, dataset_alerts)
     anomalies = _flatten_anomalies(transactions)
-    store.save(transactions, anomalies)
+    store.save(username, transactions, anomalies)
     return {
         "summary": summary,
         "schema_report": schema_report,
@@ -44,9 +48,9 @@ def analyze_upload(content: bytes, filename: str = "upload.csv") -> dict[str, An
     }
 
 
-def compute_stats() -> dict[str, Any]:
-    transactions = store.get_transactions()
-    anomalies = store.get_anomalies()
+def compute_stats(username: str) -> dict[str, Any]:
+    transactions = store.get_transactions(username)
+    anomalies = store.get_anomalies(username)
     total = len(transactions)
     total_amount = sum(
         float(t.get("amount", 0) or t.get("montant", 0) or 0) for t in transactions

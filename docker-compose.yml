@@ -1,0 +1,31 @@
+# FinAudit — déploiement local ou serveur (VPS)
+# Usage : cp backend/.env.example .env  puis renseigner GEMINI_API_KEY, puis :
+#   docker compose up -d --build
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GEMINI_MODEL=${GEMINI_MODEL:-gemini-2.5-flash-lite}
+      - GEMINI_TIMEOUT_SECONDS=${GEMINI_TIMEOUT_SECONDS:-20}
+      - FINAUDIT_CORS_ORIGIN=${FINAUDIT_CORS_ORIGIN:-http://localhost:8081}
+    ports:
+      # 8001 sur l'hôte évite le conflit avec MariaDB (souvent sur 8000)
+      - "${FINAUDIT_API_PORT:-8001}:8000"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    ports:
+      # 8081 évite le conflit avec Vite (souvent sur 8080)
+      - "${FINAUDIT_WEB_PORT:-8081}:80"
+    depends_on:
+      - backend
+    restart: unless-stopped

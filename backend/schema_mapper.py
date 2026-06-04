@@ -99,9 +99,11 @@ def _resolve_montant_column(df: pd.DataFrame, col_map: dict[str, str]) -> None:
 
 
 def load_file_to_dataframe(content: bytes, filename: str) -> pd.DataFrame:
-    """Charge CSV ou XLSX en DataFrame brut."""
+    """Charge CSV, XLSX ou XLS (Excel 97-2003) en DataFrame brut."""
     name = (filename or "").lower()
-    if name.endswith(".xlsx") or name.endswith(".xls"):
+    if name.endswith(".xls"):
+        return pd.read_excel(io.BytesIO(content), engine="xlrd")
+    if name.endswith(".xlsx"):
         return pd.read_excel(io.BytesIO(content), engine="openpyxl")
     return pd.read_csv(io.BytesIO(content), encoding="utf-8-sig")
 
