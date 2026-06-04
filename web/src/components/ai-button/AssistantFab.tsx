@@ -1,4 +1,5 @@
 import { useTransactions } from '../../hooks/useTransactions';
+import { useI18n } from '../../i18n';
 import AssistantPanel from './AssistantPanel';
 
 function RobotIcon({ className }: { className?: string }) {
@@ -20,19 +21,20 @@ function RobotIcon({ className }: { className?: string }) {
 }
 
 export default function AssistantFab() {
+  const { t } = useI18n();
   const { openAssistant, setOpenAssistant } = useTransactions();
 
   return (
     <>
       <div className="fixed bottom-5 right-5 z-30 flex flex-col items-end gap-2 sm:bottom-6 sm:right-6">
         <span className="hidden rounded-md bg-[#0F2027] px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white shadow-lg sm:block">
-          Assistant IA
+          {t('assistant.fabBadge')}
         </span>
         <button
           type="button"
           onClick={() => setOpenAssistant(true)}
           className="group relative flex h-16 w-16 items-center justify-center rounded-full bg-primary shadow-[0_4px_24px_rgba(29,158,117,0.45)] ring-4 ring-primary/25 transition hover:scale-110 hover:bg-primary-dark hover:shadow-[0_6px_32px_rgba(29,158,117,0.55)] focus:outline-none focus-visible:ring-4 focus-visible:ring-primary/50"
-          aria-label="Ouvrir l'assistant d'audit IA"
+          aria-label={t('assistant.fabLabel')}
         >
           <span
             className="absolute inset-0 animate-ping rounded-full bg-primary/40 opacity-75"

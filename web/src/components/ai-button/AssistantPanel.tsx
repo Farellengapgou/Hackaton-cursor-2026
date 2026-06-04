@@ -40,8 +40,10 @@ export default function AssistantPanel({ onClose }: AssistantPanelProps) {
               <p className="text-sm font-semibold text-themed-fg">{t('assistant.title')}</p>
               <p className="text-[10px] text-muted">
                 {llmStatus?.configured
-                  ? `Gemini · ${llmStatus.model ?? 'gemini-2.5-flash-lite'}`
-                  : 'Règles locales (GEMINI_API_KEY manquante)'}
+                  ? t('assistant.geminiStatus', {
+                      model: llmStatus.model ?? 'gemini-2.5-flash-lite',
+                    })
+                  : t('assistant.localRules')}
               </p>
             </div>
           </div>

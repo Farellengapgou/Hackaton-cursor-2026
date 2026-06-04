@@ -35,11 +35,11 @@ export default function TransactionLineChart({ data }: Props) {
             tickLine={false}
             tickFormatter={(v) => v.slice(5)}
           >
-            <Label value="Date" offset={-8} position="insideBottom" fill={colors.muted} fontSize={11} />
+            <Label value={t('charts.dateAxis')} offset={-8} position="insideBottom" fill={colors.muted} fontSize={11} />
           </XAxis>
           <YAxis tick={{ fill: colors.muted, fontSize: 11 }} axisLine={false} tickLine={false}>
             <Label
-              value="Nombre de transactions"
+              value={t('charts.transactionCount')}
               angle={-90}
               position="insideLeft"
               fill={colors.muted}
@@ -48,7 +48,7 @@ export default function TransactionLineChart({ data }: Props) {
             />
           </YAxis>
           <Tooltip
-            formatter={(value: number) => [`${value}`, 'Transactions']}
+            formatter={(value: number) => [`${value}`, t('charts.transactions')]}
             labelFormatter={(label) => `Date : ${label}`}
             contentStyle={{
               background: theme === 'dark' ? '#1a323c' : '#fff',
@@ -60,7 +60,7 @@ export default function TransactionLineChart({ data }: Props) {
           <Line
             type="monotone"
             dataKey="count"
-            name="Transactions"
+            name={t('charts.transactions')}
             stroke={colors.primary}
             strokeWidth={2}
             dot={{ fill: colors.primary, r: 3 }}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+import { useI18n } from '../../i18n'
 
 type Props = {
   id: string
@@ -20,6 +21,7 @@ export function PasswordInput({
   hint,
   error,
 }: Props) {
+  const { t } = useI18n()
   const [visible, setVisible] = useState(false)
 
   return (
@@ -42,7 +44,7 @@ export function PasswordInput({
           type="button"
           onClick={() => setVisible((v) => !v)}
           className="absolute right-2 top-1/2 -translate-y-1/2 rounded p-1 text-slate-500 hover:bg-slate-100 hover:text-slate-700"
-          aria-label={visible ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+          aria-label={visible ? t('common.hidePassword') : t('common.showPassword')}
         >
           {visible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
         </button>

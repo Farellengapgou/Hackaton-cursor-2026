@@ -19,7 +19,7 @@ export default function PreviewTable({ transactions }: PreviewTableProps) {
       <div className="border-b border-themed px-4 py-3 sm:px-5">
         <h3 className="text-sm font-semibold text-themed-fg">{t('dashboard.preview')}</h3>
         <p className="text-xs text-muted">
-          {transactions.length} ligne(s) — cliquez pour analyser avec l&apos;assistant
+          {t('dashboard.previewRowsHint', { count: transactions.length })}
         </p>
       </div>
       <div className="max-h-[420px] overflow-auto scrollbar-thin">
@@ -43,7 +43,7 @@ export default function PreviewTable({ transactions }: PreviewTableProps) {
             {transactions.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-5 py-8 text-center text-muted">
-                  Importez un fichier ou chargez la démo.
+                  {t('dashboard.previewEmpty')}
                 </td>
               </tr>
             ) : (

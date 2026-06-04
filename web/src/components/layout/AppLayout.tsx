@@ -143,7 +143,7 @@ export default function AppLayout() {
               type="button"
               className="rounded-lg border border-themed p-2 lg:hidden"
               onClick={() => setMobileOpen(true)}
-              aria-label="Menu"
+              aria-label={t('common.menu')}
             >
               <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -153,9 +153,7 @@ export default function AppLayout() {
               <p className="text-xs font-medium uppercase tracking-widest text-primary">
                 {t('app.console')}
               </p>
-              <p className="hidden text-sm text-muted sm:block">
-                Benford · Outliers · Duplications · Scoring
-              </p>
+              <p className="hidden text-sm text-muted sm:block">{t('app.headerMethods')}</p>
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2 sm:gap-3">

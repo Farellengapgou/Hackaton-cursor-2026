@@ -17,25 +17,32 @@ function buildGreeting(tx: Transaction, t: (k: string, v?: Record<string, string
   };
 }
 
-function sourceLabel(source: string, llmStatus: LlmStatus | null): string {
-  if (source === 'llm') return 'Analyse Gemini';
-  if (llmStatus?.configured === false) {
-    return 'Mode règles (clé GEMINI_API_KEY absente dans backend/.env)';
-  }
-  return 'Mode règles automatiques';
+function sourceLabel(
+  source: string,
+  llmStatus: LlmStatus | null,
+  t: (key: string) => string,
+): string {
+  if (source === 'llm') return t('assistant.sourceLlm');
+  if (llmStatus?.configured === false) return t('assistant.sourceRulesMissing');
+  return t('assistant.sourceRules');
 }
 
-function appendSourceNote(content: string, source: string, llmStatus: LlmStatus | null): string {
+function appendSourceNote(
+  content: string,
+  source: string,
+  llmStatus: LlmStatus | null,
+  t: (key: string) => string,
+): string {
   if (source === 'llm') return content;
-  const note = `\n\n— *${sourceLabel(source, llmStatus)}*`;
-  if (content.includes('Mode règles')) return content;
+  const note = `\n\n— *${sourceLabel(source, llmStatus, t)}*`;
+  if (content.includes(t('assistant.sourceRules'))) return content;
   return content + note;
 }
 
-function fallbackFromTransaction(tx: Transaction): string {
+function fallbackFromTransaction(tx: Transaction, t: (key: string) => string): string {
   if (tx.aiExplanation) return tx.aiExplanation;
   if (tx.anomalies.length === 0) {
-    return 'Aucun signal détecté sur cette transaction. Contrôle standard suffisant.';
+    return t('assistant.noSignals');
   }
   return tx.anomalies.map((a) => `**${a.rule_name}** : ${a.reason}`).join('\n\n');
 }
@@ -70,7 +77,7 @@ export function useChat(transaction: Transaction | null, hasAnalyzed: boolean) {
               ...prev,
               {
                 role: 'assistant',
-                content: appendSourceNote(explanation, source, llmStatus),
+                content: appendSourceNote(explanation, source, llmStatus, t),
               },
             ]);
           }
@@ -82,7 +89,7 @@ export function useChat(transaction: Transaction | null, hasAnalyzed: boolean) {
           }
           setMessages((prev) => [
             ...prev,
-            { role: 'assistant', content: fallbackFromTransaction(transaction) },
+            { role: 'assistant', content: fallbackFromTransaction(transaction, t) },
           ]);
         });
     }
@@ -101,7 +108,7 @@ export function useChat(transaction: Transaction | null, hasAnalyzed: boolean) {
         const { response, source } = await postChat(transaction.id, text.trim(), messages);
         setMessages((prev) => [
           ...prev,
-          { role: 'assistant', content: appendSourceNote(response, source, llmStatus) },
+          { role: 'assistant', content: appendSourceNote(response, source, llmStatus, t) },
         ]);
       } catch (err) {
         if (err instanceof ApiError && err.status === 400) {
@@ -110,15 +117,13 @@ export function useChat(transaction: Transaction | null, hasAnalyzed: boolean) {
           const status = llmStatus ?? (await fetchLlmStatus());
           setLlmStatus(status);
           setError(
-            status.configured
-              ? 'Impossible de joindre l\'assistant (vérifiez que le backend tourne). Réponse locale affichée.'
-              : 'Gemini non configuré : ajoutez GEMINI_API_KEY dans backend/.env puis redémarrez ./run.sh',
+            status.configured ? t('assistant.backendUnreachable') : t('assistant.geminiNotConfigured'),
           );
           setMessages((prev) => [
             ...prev,
             {
               role: 'assistant',
-              content: appendSourceNote(fallbackFromTransaction(transaction), 'template', status),
+              content: appendSourceNote(fallbackFromTransaction(transaction, t), 'template', status, t),
             },
           ]);
         }

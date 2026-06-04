@@ -98,7 +98,7 @@ export default function TransactionsTable({
                         }}
                         className="rounded-md border border-themed px-2 py-1 text-xs font-medium text-primary transition hover:bg-primary/10"
                       >
-                        Analyser
+                        {t('transactions.analyze')}
                       </button>
                     </td>
                   )}

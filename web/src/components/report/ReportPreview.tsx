@@ -15,28 +15,6 @@ interface ReportPreviewProps {
   summary: AuditSummary;
 }
 
-function riskVerdict(score: number): { title: string; text: string; tone: 'ok' | 'warn' | 'danger' } {
-  if (score >= 70) {
-    return {
-      title: 'Risque élevé',
-      text: 'Plusieurs signaux critiques : prioriser la revue des paiements concernés et les pièces justificatives avant validation comptable.',
-      tone: 'danger',
-    };
-  }
-  if (score >= 40) {
-    return {
-      title: 'Risque modéré',
-      text: 'Des anomalies méritent un contrôle ciblé sous 48 h. Aucune suspension automatique des paiements n\'est imposée par l\'outil.',
-      tone: 'warn',
-    };
-  }
-  return {
-    title: 'Risque maîtrisé',
-    text: 'Peu de signaux forts. Maintenir les contrôles habituels et documenter les points vérifiés.',
-    tone: 'ok',
-  };
-}
-
 export default function ReportPreview({ transactions, summary }: ReportPreviewProps) {
   const { t, locale } = useI18n();
   const [exporting, setExporting] = useState(false);
@@ -69,10 +47,30 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
     });
     return Object.entries(counts)
       .sort((a, b) => b[1] - a[1])
-      .map(([ruleId, count]) => ({ ...getAnomalyRuleInfo(ruleId), count, ruleId }));
-  }, [flagged]);
+      .map(([ruleId, count]) => ({ ...getAnomalyRuleInfo(ruleId, t), count, ruleId }));
+  }, [flagged, t]);
 
-  const verdict = riskVerdict(summary.globalRiskScore);
+  const verdict = useMemo(() => {
+    if (summary.globalRiskScore >= 70) {
+      return {
+        title: t('report.verdictHighTitle'),
+        text: t('report.verdictHighText'),
+        tone: 'danger' as const,
+      };
+    }
+    if (summary.globalRiskScore >= 40) {
+      return {
+        title: t('report.verdictMidTitle'),
+        text: t('report.verdictMidText'),
+        tone: 'warn' as const,
+      };
+    }
+    return {
+      title: t('report.verdictLowTitle'),
+      text: t('report.verdictLowText'),
+      tone: 'ok' as const,
+    };
+  }, [summary.globalRiskScore, t]);
 
   const handleExport = async () => {
     setExporting(true);
@@ -86,7 +84,7 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
           } catch {
             const fallback = tx.anomalies
               .map((a) => {
-                const info = getAnomalyRuleInfo(a.rule_name);
+                const info = getAnomalyRuleInfo(a.rule_name, t);
                 return `${info.label} : ${a.reason}`;
               })
               .join(' — ');
@@ -118,8 +116,8 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
             onChange={(e) => setOrientation(e.target.value as PdfOrientation)}
             className="rounded-lg border border-themed bg-themed px-3 py-2 text-sm text-themed-fg"
           >
-            <option value="portrait">PDF portrait</option>
-            <option value="landscape">PDF paysage</option>
+            <option value="portrait">{t('report.pdfPortrait')}</option>
+            <option value="landscape">{t('report.pdfLandscape')}</option>
           </select>
           <button
             type="button"
@@ -127,14 +125,14 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
             disabled={exporting || flagged.length === 0}
             className="rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-primary-dark disabled:opacity-50"
           >
-            {exporting ? t('report.exporting') : 'Exporter PDF'}
+            {exporting ? t('report.exporting') : t('report.export')}
           </button>
           <button
             type="button"
             onClick={() => window.print()}
             className="rounded-lg border border-themed px-5 py-2.5 text-sm font-medium text-themed-fg"
           >
-            Imprimer
+            {t('report.print')}
           </button>
         </div>
       </div>
@@ -144,16 +142,14 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-primary">
             {t('report.confidential')}
           </p>
-          <h1 className="mt-2 text-2xl font-bold text-themed-fg sm:text-3xl">Rapport d&apos;audit FinAudit</h1>
-          <p className="mt-2 text-sm text-muted">
-            Lecture pour auditeur / DAF — signaux automatiques à recouper avec vos pièces comptables
-          </p>
+          <h1 className="mt-2 text-2xl font-bold text-themed-fg sm:text-3xl">{t('report.docTitle')}</h1>
+          <p className="mt-2 text-sm text-muted">{t('report.docSubtitle')}</p>
           <p className="mt-2 font-mono text-xs text-muted">
             {t('report.generated')} {formatDateTime(new Date().toISOString(), locale)}
           </p>
         </header>
 
-        <ReportSection title="1. Conclusion en une minute">
+        <ReportSection title={t('report.sectionConclusion')}>
           <div
             className={`rounded-lg border p-4 ${
               verdict.tone === 'danger'
@@ -167,39 +163,21 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
             <p className="mt-2 text-sm leading-relaxed text-themed-fg/85">{verdict.text}</p>
           </div>
           <ul className="mt-4 space-y-2 text-sm text-themed-fg/85">
+            <li>{t('report.listAnalyzed', { total: summary.totalTransactions, anomalies: summary.anomalyCount })}</li>
+            <li>{t('report.listGlobalScore', { score: summary.globalRiskScore })}</li>
+            <li>{t('report.listCritical', { count: summary.criticalCount })}</li>
             <li>
-              <strong>{summary.totalTransactions}</strong> transactions analysées — dont{' '}
-              <strong>{summary.anomalyCount}</strong> avec au moins un signal d&apos;alerte.
-            </li>
-            <li>
-              Score de risque global : <strong>{summary.globalRiskScore}/100</strong> (moyenne des
-              scores ligne à ligne).
-            </li>
-            <li>
-              <strong>{summary.criticalCount}</strong> transaction(s) classée(s) critique (score ≥
-              70 ou sévérité critique).
-            </li>
-            <li>
-              Montant total du fichier : <strong>{formatFCFA(summary.totalAmount, locale)}</strong>
+              {t('report.totalAmountLabel')}{' '}
+              <strong>{formatFCFA(summary.totalAmount, locale)}</strong>
             </li>
           </ul>
         </ReportSection>
 
-        <ReportSection title="2. Comment lire ce rapport">
+        <ReportSection title={t('report.sectionHowToRead')}>
           <div className="space-y-3 text-sm leading-relaxed text-themed-fg/85">
-            <p>
-              Chaque <strong>signal</strong> est une règle automatique (montant inhabituel, doublon,
-              heure atypique, etc.). Ce n&apos;est pas une preuve de fraude : c&apos;est une liste de
-              contrôles à effectuer.
-            </p>
-            <p>
-              Le <strong>score /100</strong> agrège l&apos;intensité des signaux sur la ligne. Plus il
-              est haut, plus la revue est urgente.
-            </p>
-            <p>
-              Les explications détaillées (section 4) peuvent être enrichies par l&apos;assistant IA si
-              Gemini est configuré sur le serveur.
-            </p>
+            <p>{t('report.bodySignalsExplain')} {t('report.bodySignalsNote')}</p>
+            <p>{t('report.bodyScoreExplain')}</p>
+            <p>{t('report.bodyAiNote')}</p>
           </div>
         </ReportSection>
 
@@ -207,23 +185,23 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
           <div className="flex flex-col items-center gap-6 md:flex-row md:justify-around">
             <RiskGauge score={summary.globalRiskScore} size={160} animated={false} />
             <div className="grid grid-cols-2 gap-4 text-center sm:grid-cols-3">
-              <StatBox label="Transactions" value={String(summary.totalTransactions)} />
-              <StatBox label="Avec signaux" value={String(summary.anomalyCount)} accent />
-              <StatBox label="Critiques" value={String(summary.criticalCount)} danger />
+              <StatBox label={t('report.statsTransactions')} value={String(summary.totalTransactions)} />
+              <StatBox label={t('report.statsWithSignals')} value={String(summary.anomalyCount)} accent />
+              <StatBox label={t('report.statsCritical')} value={String(summary.criticalCount)} danger />
             </div>
           </div>
         </ReportSection>
 
-        <ReportSection title="3. Types de signaux détectés">
+        <ReportSection title={t('report.sectionSignals')}>
           <div className="space-y-4">
             {breakdown.length === 0 ? (
-              <p className="text-sm text-muted">Aucun signal sur ce fichier.</p>
+              <p className="text-sm text-muted">{t('report.noSignalsOnFile')}</p>
             ) : (
               breakdown.map((row) => (
                 <div key={row.ruleId} className="rounded-lg border border-themed/80 p-4">
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <p className="font-semibold text-themed-fg">{row.label}</p>
-                    <span className="font-mono text-sm text-primary">{row.count} fois</span>
+                    <span className="font-mono text-sm text-primary">{t('report.occurrences', { count: row.count })}</span>
                   </div>
                   <p className="mt-2 text-sm text-muted">{row.description}</p>
                 </div>
@@ -232,14 +210,11 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
           </div>
         </ReportSection>
 
-        <ReportSection title="4. Transactions à traiter en priorité">
-          <p className="mb-4 text-sm text-muted">
-            Classement par score décroissant. Pour chaque ligne : vérifier facture, bon de commande et
-            validation hiérarchique.
-          </p>
+        <ReportSection title={t('report.sectionPriority')}>
+          <p className="mb-4 text-sm text-muted">{t('report.sectionPriorityHint')}</p>
           <div className="space-y-5">
             {critical.length === 0 && flagged.length === 0 ? (
-              <p className="text-sm text-muted">Aucune anomalie à documenter.</p>
+              <p className="text-sm text-muted">{t('report.noAnomaliesToDocument')}</p>
             ) : (
               (critical.length > 0 ? critical : flagged.slice(0, 15)).map((tx) => (
                 <article
@@ -257,17 +232,17 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
                     <div className="flex items-center gap-2">
                       <SeverityBadge severity={tx.severity} size="md" />
                       <div className="text-right">
-                        <p className="text-[10px] uppercase text-muted">Score</p>
+                        <p className="text-[10px] uppercase text-muted">{t('report.scoreLabel')}</p>
                         <p className="font-mono text-xl font-bold text-danger">{tx.risk_score}</p>
                       </div>
                     </div>
                   </div>
 
                   <div className="mt-3 rounded-md bg-themed-panel/80 p-3">
-                    <p className="text-xs font-semibold uppercase text-muted">Signaux détectés</p>
+                    <p className="text-xs font-semibold uppercase text-muted">{t('report.detectedSignals')}</p>
                     <ul className="mt-2 space-y-2 text-sm">
                       {tx.anomalies.map((a, i) => {
-                        const info = getAnomalyRuleInfo(a.rule_name);
+                        const info = getAnomalyRuleInfo(a.rule_name, t);
                         return (
                           <li key={i}>
                             <span className="font-medium text-themed-fg">{info.label}</span>
@@ -279,16 +254,14 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
                   </div>
 
                   <div className="mt-3 border-t border-themed pt-3">
-                    <p className="text-xs font-semibold uppercase text-primary">
-                      Que faire ? (synthèse)
-                    </p>
+                    <p className="text-xs font-semibold uppercase text-primary">{t('report.whatToDo')}</p>
                     <p className="mt-2 text-sm leading-relaxed text-themed-fg/90">
                       {tx.aiExplanation ??
                         (tx.risk_score >= 70
-                          ? 'Suspendre le paiement le temps d\'obtenir les justificatifs et la validation DAF.'
+                          ? t('report.actionHigh')
                           : tx.risk_score >= 40
-                            ? 'Demander facture et validation sous 48 h.'
-                            : 'Contrôle ponctuel recommandé.')}
+                            ? t('report.actionMid')
+                            : t('report.actionLow'))}
                     </p>
                   </div>
                 </article>
@@ -298,8 +271,7 @@ export default function ReportPreview({ transactions, summary }: ReportPreviewPr
         </ReportSection>
 
         <footer className="mt-10 border-t border-themed pt-6 text-center text-xs text-muted">
-          {t('report.footer')} — Document généré automatiquement, non substitut à un audit légal
-          certifié.
+          {t('report.footer')} — {t('report.footerDisclaimer')}
         </footer>
       </GlassPanel>
     </div>

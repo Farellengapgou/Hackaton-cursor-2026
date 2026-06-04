@@ -2,7 +2,8 @@
   "app": {
     "name": "FinAudit AI",
     "tagline": "Financial audit & fraud detection",
-    "console": "Forensic audit console"
+    "console": "Forensic audit console",
+    "headerMethods": "Benford · Outliers · Duplicates · Scoring"
   },
   "nav": {
     "dashboard": "Dashboard",
@@ -52,13 +53,24 @@
     "charts": {
       "timeline": "Transaction timeline",
       "anomalies": "Anomaly distribution",
+      "anomaliesHint": "Detected signals breakdown — hover a bar for details",
       "severity": "Severity distribution",
       "riskScores": "Risk score distribution"
     },
     "preview": "Transaction preview",
+    "previewEmpty": "Import a file or load the demo.",
+    "previewRowsHint": "{{count}} row(s) — click to analyze with the assistant",
     "insights": "Analytical insights",
     "noData": "Upload a CSV file to start analysis",
-    "analyzeRequired": "Import a CSV first to access data"
+    "analyzeRequired": "Import a CSV first to access data",
+    "noFile": "No file analyzed yet.",
+    "loadDemo": "Load demo data",
+    "fileImported": "Imported file:",
+    "rowsAnalyzed": "{{count}} row(s) analyzed",
+    "viewTransactions": "View transactions",
+    "reportCardTitle": "Audit report",
+    "reportCardDesc": "Anomaly summary, risk scores and detailed explanations — portrait or landscape PDF export.",
+    "generateReport": "Generate audit report"
   },
   "transactions": {
     "title": "Transaction ledger",
@@ -95,7 +107,8 @@
     "detail": "Transaction detail",
     "flags": "Detected signals",
     "forensicNote": "Forensic note",
-    "askAssistant": "Ask assistant"
+    "askAssistant": "Ask assistant",
+    "analyze": "Analyze"
   },
   "severity": {
     "critique": "Critical",
@@ -121,7 +134,107 @@
     "anomalyBreakdown": "Anomaly breakdown",
     "criticalTransactions": "Critical transactions",
     "footer": "FinAudit AI · Automated forensic analysis · Audit use only",
-    "summaryText": "This automated forensic review analyzed {{total}} transactions and identified {{anomalies}} anomalies requiring auditor attention. Composite risk score is {{score}}/100."
+    "summaryText": "This automated forensic review analyzed {{total}} transactions and identified {{anomalies}} anomalies requiring auditor attention. Composite risk score is {{score}}/100.",
+    "verdictHighTitle": "High risk",
+    "verdictHighText": "Multiple critical signals: prioritize review of related payments and supporting documents before accounting sign-off.",
+    "verdictMidTitle": "Moderate risk",
+    "verdictMidText": "Some anomalies warrant targeted review within 48 hours. The tool does not automatically block payments.",
+    "verdictLowTitle": "Controlled risk",
+    "verdictLowText": "Few strong signals. Maintain routine controls and document items reviewed.",
+    "totalAmountLabel": "Total file amount:",
+    "statsTransactions": "Transactions",
+    "statsWithSignals": "With signals",
+    "statsCritical": "Critical",
+    "noSignalsOnFile": "No signals on this file.",
+    "occurrences": "{{count}} times",
+    "noAnomaliesToDocument": "No anomalies to document.",
+    "detectedSignals": "Detected signals",
+    "recommendedActions": "Recommended actions",
+    "scoreLabel": "Score",
+    "pdfPortrait": "Portrait PDF",
+    "pdfLandscape": "Landscape PDF",
+    "print": "Print",
+    "bodyIntro": "This report presents results from automated forensic analysis of the imported file.",
+    "bodyTransactions": "{{total}} transactions analyzed — {{anomalies}} with at least one signal.",
+    "bodyCritical": "{{count}} transaction(s) rated critical (score ≥ 70).",
+    "bodySignalsExplain": "Each signal is an automated rule (unusual amount, duplicate, Benford, etc.).",
+    "bodyScoreExplain": "The /100 score aggregates signal intensity per line. Higher scores mean higher review priority.",
+    "docTitle": "FinAudit audit report",
+    "docSubtitle": "For auditor / CFO review — automated signals to cross-check with supporting documents",
+    "sectionConclusion": "1. One-minute conclusion",
+    "sectionHowToRead": "2. How to read this report",
+    "sectionSignals": "3. Types of signals detected",
+    "sectionPriority": "4. Priority transactions",
+    "sectionPriorityHint": "Ranked by descending score. For each line: verify invoice, purchase order and management approval.",
+    "whatToDo": "What to do? (summary)",
+    "actionHigh": "Hold payment until supporting documents and CFO approval are obtained.",
+    "actionMid": "Request invoice and approval within 48 hours.",
+    "actionLow": "Spot check recommended.",
+    "footerDisclaimer": "Automatically generated document — not a substitute for a certified legal audit.",
+    "listAnalyzed": "{{total}} transactions analyzed — {{anomalies}} with at least one alert signal.",
+    "listGlobalScore": "Global risk score: {{score}}/100 (average of line scores).",
+    "listCritical": "{{count}} transaction(s) rated critical (score ≥ 70 or critical severity).",
+    "bodySignalsNote": "This is not proof of fraud — it is a checklist of controls to perform.",
+    "bodyAiNote": "Detailed explanations (section 4) may be enriched by the AI assistant when Gemini is configured on the server."
+  },
+  "rules": {
+    "fallback": {
+      "description": "Detection signal « {{rule}} » — see transaction detail for the exact reason."
+    },
+    "OUTLIER_STATISTIQUE": {
+      "label": "Unusual amount",
+      "description": "Amount unusually high or low compared to mean and spread of other transactions in the file."
+    },
+    "DOUBLON": {
+      "label": "Duplicate",
+      "description": "Same amount, label/vendor and close date — possible double payment."
+    },
+    "MONTANT_NEGATIF": {
+      "label": "Negative amount",
+      "description": "Negative entry: verify (credit note, correction or data entry error)."
+    },
+    "HEURE_NOCTURNE": {
+      "label": "Atypical time",
+      "description": "Transaction outside usual business hours (evening, night or weekend)."
+    },
+    "MONTANT_ROND": {
+      "label": "Suspicious round amount",
+      "description": "Round amount sometimes linked to undocumented payments."
+    },
+    "FOURNISSEUR_UNIQUE": {
+      "label": "Single vendor",
+      "description": "This payee appears only once in the file — heightened scrutiny."
+    },
+    "ISOLATION_FOREST": {
+      "label": "Atypical profile (ML)",
+      "description": "Multivariate atypical profile (Isolation Forest) — cross-check with other signals."
+    },
+    "BENFORD_DEVIATION": {
+      "label": "Benford's law",
+      "description": "Leading-digit distribution of amounts atypical at file level."
+    },
+    "BENFORD": {
+      "label": "Benford's law",
+      "description": "Statistical deviation on leading digits (file-level test)."
+    },
+    "OUTLIER": {
+      "label": "Unusual amount",
+      "description": "Statistically aberrant amount compared to other transactions."
+    },
+    "DUPLICATE": {
+      "label": "Duplicate",
+      "description": "Risk of duplicate payment in the same period."
+    }
+  },
+  "charts": {
+    "clickBar": "Click to view related transactions",
+    "signalCount": "Signal count",
+    "clickSeverity": "Click a segment to filter by severity",
+    "severityDistribution": "Severity distribution",
+    "dateAxis": "Date",
+    "transactionCount": "Transaction count",
+    "transactions": "Transactions",
+    "scoreRange": "Score range"
   },
   "assistant": {
     "title": "Forensic assistant",
@@ -137,7 +250,17 @@
       "duplicate": "Analyze duplication",
       "actions": "Recommended actions"
     },
-    "greeting": "Forensic analysis ready for transaction **{{id}}**.\n\n**{{description}}** · {{amount}}\n\n**Risk score:** {{score}}/100 · **Severity:** {{severity}}"
+    "greeting": "Forensic analysis ready for transaction **{{id}}**.\n\n**{{description}}** · {{amount}}\n\n**Risk score:** {{score}}/100 · **Severity:** {{severity}}",
+    "geminiStatus": "Gemini · {{model}}",
+    "localRules": "Local rules (GEMINI_API_KEY missing)",
+    "fabLabel": "Open AI audit assistant",
+    "fabBadge": "AI Audit",
+    "sourceLlm": "Gemini analysis",
+    "sourceRules": "Automatic rules mode",
+    "sourceRulesMissing": "Rules mode (GEMINI_API_KEY missing on server)",
+    "noSignals": "No signal on this transaction. Standard review is sufficient.",
+    "backendUnreachable": "Cannot reach assistant (check backend is running). Showing local response.",
+    "geminiNotConfigured": "Gemini not configured: add GEMINI_API_KEY on the server and redeploy the API."
   },
   "help": {
     "title": "Help center",
@@ -182,7 +305,10 @@
     "liveStatus": "Live status",
     "anomaliesCount": "anomalies",
     "viewAnomalies": "View transactions with anomalies →",
-    "currency": "FCFA"
+    "currency": "FCFA",
+    "menu": "Menu",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password"
   },
   "theme": {
     "dark": "Dark mode",
@@ -202,7 +328,7 @@
       "ctaPrimary": "Open the platform",
       "ctaSecondary": "Learn more",
       "scroll": "Scroll down",
-      "imageAlt": "African professional in office reviewing accounting documents"
+      "imageAlt": "African professional accountant at desk with laptop and audit documents"
     },
     "about": {
       "label": "About",

@@ -33,7 +33,7 @@ export default function SeverityPieChart({ data }: Props) {
   return (
     <GlassPanel className="p-5">
       <h3 className="mb-1 text-sm font-semibold text-themed-fg">{t('dashboard.charts.severity')}</h3>
-      <p className="mb-4 text-xs text-muted">Cliquez sur un segment pour filtrer par sévérité</p>
+      <p className="mb-4 text-xs text-muted">{t('charts.clickSeverity')}</p>
       <ResponsiveContainer width="100%" height={240}>
         <PieChart>
           <Pie
@@ -56,7 +56,7 @@ export default function SeverityPieChart({ data }: Props) {
               <Cell key={entry.severity} fill={SEV_COLORS[entry.severity]} />
             ))}
             <Label
-              value="Répartition sévérité"
+              value={t('charts.severityDistribution')}
               position="center"
               fill={colors.muted}
               fontSize={10}

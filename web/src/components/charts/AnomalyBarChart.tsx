@@ -22,14 +22,16 @@ function AnomalyTooltip({
   active,
   payload,
   theme,
+  t,
 }: {
   active?: boolean;
   payload?: { payload?: { ruleId: string; label: string; description: string; count: number } }[];
   theme: 'dark' | 'light';
+  t: (key: string) => string;
 }) {
   if (!active || !payload?.[0]?.payload) return null;
   const row = payload[0].payload;
-  const info = getAnomalyRuleInfo(row.ruleId);
+  const info = getAnomalyRuleInfo(row.ruleId, t);
   const bg = theme === 'dark' ? '#1a323c' : '#fff';
   return (
     <div
@@ -43,7 +45,7 @@ function AnomalyTooltip({
       <p className="mt-2 text-xs leading-relaxed text-[#6b7280] dark:text-[#8ba3ad]">
         {info.description}
       </p>
-      <p className="mt-2 text-[10px] text-[#9ca3af]">Cliquez pour voir les transactions concernées</p>
+      <p className="mt-2 text-[10px] text-[#9ca3af]">{t('charts.clickBar')}</p>
     </div>
   );
 }
@@ -52,15 +54,13 @@ export default function AnomalyBarChart({ data, onBarClick }: Props) {
   const { theme } = useUiStore();
   const { t } = useI18n();
   const colors = theme === 'dark' ? chartColors : chartColorsLight;
-  const chartData = mapDistributionForChart(data);
+  const chartData = mapDistributionForChart(data, t);
   const chartHeight = Math.max(240, chartData.length * 44);
 
   return (
     <GlassPanel className="p-5">
       <h3 className="mb-1 text-sm font-semibold text-themed-fg">{t('dashboard.charts.anomalies')}</h3>
-      <p className="mb-4 text-xs text-muted">
-        Répartition des signaux détectés — survolez une barre pour l&apos;explication
-      </p>
+      <p className="mb-4 text-xs text-muted">{t('dashboard.charts.anomaliesHint')}</p>
       <ResponsiveContainer width="100%" height={chartHeight}>
         <BarChart
           data={chartData}
@@ -75,7 +75,7 @@ export default function AnomalyBarChart({ data, onBarClick }: Props) {
             axisLine={false}
             tickLine={false}
             label={{
-              value: 'Nombre de signaux',
+              value: t('charts.signalCount'),
               position: 'insideBottom',
               offset: -4,
               fill: colors.muted,
@@ -91,7 +91,7 @@ export default function AnomalyBarChart({ data, onBarClick }: Props) {
             tickLine={false}
           />
           <Tooltip
-            content={<AnomalyTooltip theme={theme === 'dark' ? 'dark' : 'light'} />}
+            content={<AnomalyTooltip theme={theme === 'dark' ? 'dark' : 'light'} t={t} />}
             cursor={{ fill: theme === 'dark' ? 'rgba(29,158,117,0.12)' : 'rgba(29,158,117,0.08)' }}
           />
           <Bar

@@ -56,13 +56,13 @@ export default function Dashboard() {
 
       {!hasAnalyzed && !uploadLoading && (
         <div className="flex flex-wrap items-center gap-3 rounded-lg border border-themed bg-themed-panel/50 px-4 py-3 text-sm">
-          <span className="text-muted">Aucun fichier analysé.</span>
+          <span className="text-muted">{t('dashboard.noFile')}</span>
           <button
             type="button"
             onClick={loadDemoData}
             className="rounded-md border border-primary/40 px-4 py-1.5 text-xs font-medium text-primary transition hover:bg-primary/10"
           >
-            Charger les données de démonstration
+            {t('dashboard.loadDemo')}
           </button>
         </div>
       )}
@@ -71,10 +71,11 @@ export default function Dashboard() {
         <div className="flex flex-col gap-3 rounded-lg border border-primary/30 bg-primary/5 px-4 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-5">
           <div>
             <p className="text-sm font-medium text-themed-fg">
-              Fichier importé : <span className="font-mono">{uploadMeta.fileName}</span>
+              {t('dashboard.fileImported')}{' '}
+              <span className="font-mono">{uploadMeta.fileName}</span>
             </p>
             <p className="mt-1 text-xs text-muted">
-              {uploadMeta.rowCount} ligne(s) analysée(s) —{' '}
+              {t('dashboard.rowsAnalyzed', { count: uploadMeta.rowCount })} —{' '}
               {formatDateTime(uploadMeta.analyzedAt, locale)}
             </p>
           </div>
@@ -84,7 +85,7 @@ export default function Dashboard() {
               onClick={() => navigate('/transactions')}
               className="rounded-lg border border-themed bg-themed-panel px-4 py-2 text-xs font-semibold text-themed-fg transition hover:border-primary/50 hover:text-primary"
             >
-              Voir les transactions
+              {t('dashboard.viewTransactions')}
             </button>
           </div>
         </div>
@@ -114,17 +115,14 @@ export default function Dashboard() {
           <QuickInsights insights={insights} />
 
           <div className="rounded-xl border border-themed bg-themed-panel/60 p-6 text-center sm:p-8">
-            <h3 className="text-lg font-semibold text-themed-fg">Rapport d&apos;audit</h3>
-            <p className="mx-auto mt-2 max-w-md text-sm text-muted">
-              Synthèse des anomalies, scores de risque et explications détaillées — export PDF
-              portrait ou paysage.
-            </p>
+            <h3 className="text-lg font-semibold text-themed-fg">{t('dashboard.reportCardTitle')}</h3>
+            <p className="mx-auto mt-2 max-w-md text-sm text-muted">{t('dashboard.reportCardDesc')}</p>
             <button
               type="button"
               onClick={() => navigate('/report')}
               className="mt-6 rounded-lg bg-primary px-8 py-3 text-sm font-semibold text-white transition hover:bg-primary-dark hover:shadow-glow"
             >
-              Générer le rapport d&apos;audit
+              {t('dashboard.generateReport')}
             </button>
           </div>
         </>
