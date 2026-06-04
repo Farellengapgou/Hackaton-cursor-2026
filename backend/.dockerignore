@@ -1,0 +1,11 @@
+__pycache__
+*.pyc
+.env
+.env.*
+.git
+*.md
+docs/
+scripts/
+demo_transactions*.csv
+demo_transactions*.xlsx
+demo_transactions*.xls
